@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="b2sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="50%" stop-color="#FFCC02"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </linearGradient>
+    <linearGradient id="b2ocean" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00BCD4"/>
+      <stop offset="100%" stop-color="#00838F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 夕阳圆 -->
+  <circle cx="100" cy="100" r="95" fill="url(#b2sky)"/>
+  
+  <!-- 海洋 -->
+  <ellipse cx="100" cy="165" rx="95" ry="40" fill="url(#b2ocean)"/>
+  
+  <!-- 太阳 -->
+  <circle cx="100" cy="70" r="40" fill="#FFF9C4"/>
+  
+  <!-- 夕阳倒影 -->
+  <ellipse cx="100" cy="160" rx="30" ry="8" fill="#FFF9C4" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.3;0.5" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 帆船 -->
+  <g>
+    <rect x="130" y="130" width="40" height="6" rx="2" fill="#8D6E63"/>
+    <polygon points="150,130 150,85 180,107" fill="#FFFFFF"/>
+    <polygon points="150,107 150,115 180,107" fill="#FFCDD2"/>
+  </g>
+  
+  <!-- 海鸥 -->
+  <g fill="#FFFFFF" stroke="#BDBDBD" stroke-width="1">
+    <path d="M50,60 Q60,50 70,60 Q60,55 50,60"/>
+    <path d="M55,60 Q60,55 65,60" fill="none"/>
+  </g>
+  
+  <!-- 棕榈树剪影 -->
+  <g fill="#2E7D32">
+    <rect x="25" y="140" width="8" height="50" rx="3"/>
+    <path d="M29,140 Q5,110 0,130" fill="#4CAF50"/>
+    <path d="M29,140 Q55,110 60,130" fill="#4CAF50"/>
+    <path d="M29,140 Q29,100 20,110" fill="#66BB6A"/>
+    <path d="M29,140 Q29,100 38,110" fill="#66BB6A"/>
+  </g>
+  
+  <!-- D 字母 -->
+  <text x="100" y="155" font-family="'Georgia', serif" font-size="60" font-weight="bold" fill="#FFFFFF" text-anchor="middle">D</text>
+  
+  <!-- 名字 -->
+  <text x="100" y="195" font-family="'Nunito', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">dawnwenhui</text>
+</svg>

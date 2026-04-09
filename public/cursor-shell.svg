@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 贝壳光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#FFE082" stroke="#FFD54F" stroke-width="1"/>
+  <!-- 贝壳 -->
+  <g transform="translate(4, 2)">
+    <ellipse cx="12" cy="12" rx="8" ry="6" fill="#FFECB3" stroke="#FFCC02" stroke-width="1"/>
+    <line x1="8" y1="9" x2="12" y2="15" stroke="#FFD54F" stroke-width="0.5"/>
+    <line x1="10" y1="8" x2="12" y2="14" stroke="#FFD54F" stroke-width="0.5"/>
+    <line x1="12" y1="8" x2="12" y2="15" stroke="#FFD54F" stroke-width="0.5"/>
+    <line x1="14" y1="8" x2="12" y2="14" stroke="#FFD54F" stroke-width="0.5"/>
+    <line x1="16" y1="9" x2="12" y2="15" stroke="#FFD54F" stroke-width="0.5"/>
+  </g>
+</svg>

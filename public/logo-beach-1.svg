@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bsky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#4FC3F7"/>
+    </linearGradient>
+    <linearGradient id="bsea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4FC3F7"/>
+      <stop offset="100%" stop-color="#29B6F6"/>
+    </linearGradient>
+    <linearGradient id="bsand" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </linearGradient>
+    <linearGradient id="bsun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEE58"/>
+      <stop offset="100%" stop-color="#FFC107"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 - 天空蓝 -->
+  <circle cx="100" cy="100" r="95" fill="url(#bsky)"/>
+  
+  <!-- 沙滩底部 -->
+  <ellipse cx="100" cy="185" rx="95" ry="35" fill="url(#bsand)"/>
+  
+  <!-- 海洋 -->
+  <ellipse cx="100" cy="140" rx="90" ry="25" fill="url(#bsea)"/>
+  
+  <!-- 浪花 -->
+  <path d="M20,125 Q50,115 80,125 T140,125 T200,125" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.9">
+    <animate attributeName="d" 
+      values="M20,125 Q50,115 80,125 T140,125 T200,125;
+              M20,130 Q50,140 80,130 T140,130 T200,130;
+              M20,125 Q50,115 80,125 T140,125 T200,125"
+      dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 太阳 -->
+  <circle cx="155" cy="45" r="25" fill="url(#bsun)"/>
+  
+  <!-- 云朵 -->
+  <g fill="#FFFFFF" fill-opacity="0.95">
+    <ellipse cx="60" cy="35" rx="20" ry="10"/>
+    <ellipse cx="72" cy="32" rx="14" ry="8"/>
+    <ellipse cx="50" cy="34" rx="12" ry="7"/>
+  </g>
+  
+  <!-- 贝壳 -->
+  <g fill="#FFECB3" stroke="#FFD54F" stroke-width="1">
+    <ellipse cx="50" cy="175" rx="15" ry="8" transform="rotate(-15 50 175)"/>
+    <line x1="45" y1="170" x2="55" y2="180" stroke="#FFCC02" stroke-width="1"/>
+    <line x1="48" y1="168" x2="55" y2="178" stroke="#FFCC02" stroke-width="1"/>
+  </g>
+  
+  <!-- 海星 -->
+  <g fill="#FF7043">
+    <polygon points="150,165 153,175 163,175 155,181 158,191 150,185 142,191 145,181 137,175 147,175"/>
+  </g>
+  
+  <!-- 椰子树 -->
+  <g>
+    <rect x="160" y="140" width="8" height="50" rx="4" fill="#8D6E63"/>
+    <path d="M164,145 Q150,125 140,135" fill="none" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+    <path d="M164,145 Q175,125 185,135" fill="none" stroke="#4CAF50" stroke-width="6" stroke-linecap="round"/>
+    <path d="M164,145 Q164,120 150,115" fill="none" stroke="#66BB6A" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="160" cy="150" r="6" fill="#5D4037"/>
+    <circle cx="168" cy="148" r="5" fill="#6D4C41"/>
+  </g>
+  
+  <!-- D 字母 - 用沙子写成 -->
+  <text x="100" y="118" font-family="'Georgia', serif" font-size="50" font-weight="bold" fill="#8D6E63" text-anchor="middle">D</text>
+  
+  <!-- 名字 -->
+  <text x="100" y="192" font-family="'Nunito', sans-serif" font-size="11" font-weight="700" fill="#5D4037" text-anchor="middle" letter-spacing="1">dawnwenhui</text>
+</svg>

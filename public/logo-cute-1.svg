@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <!-- 柔和渐变 -->
+    <linearGradient id="cuteGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9a8d4"/>
+      <stop offset="50%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    
+    <radialGradient id="cuteGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#c4b5fd" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- 圆润背景 -->
+  <circle cx="100" cy="100" r="90" fill="url(#cuteGrad1)" filter="url(#softShadow)"/>
+  
+  <!-- 内部光晕 -->
+  <circle cx="100" cy="100" r="90" fill="url(#cuteGlow)"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="55" cy="115" rx="15" ry="10" fill="#fda4af" fill-opacity="0.4"/>
+  <ellipse cx="145" cy="115" rx="15" ry="10" fill="#fda4af" fill-opacity="0.4"/>
+  
+  <!-- D 字母 - 圆润可爱 -->
+  <text x="100" y="135" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="95" font-weight="800" fill="#ffffff" text-anchor="middle">D</text>
+  
+  <!-- 眼睛装饰 -->
+  <circle cx="65" cy="65" r="6" fill="#ffffff"/>
+  <circle cx="135" cy="65" r="6" fill="#ffffff"/>
+  
+  <!-- 星星装饰 -->
+  <path d="M45,150 L48,158 L57,158 L50,164 L53,173 L45,167 L37,173 L40,164 L33,158 L42,158 Z" fill="#fde68a" fill-opacity="0.8"/>
+  <path d="M155,150 L157,156 L163,156 L158,160 L160,166 L155,162 L150,166 L152,160 L147,156 L153,156 Z" fill="#fde68a" fill-opacity="0.8"/>
+  
+  <!-- 云朵装饰 -->
+  <ellipse cx="160" cy="40" rx="15" ry="10" fill="#ffffff" fill-opacity="0.6"/>
+  <ellipse cx="172" cy="42" rx="12" ry="8" fill="#ffffff" fill-opacity="0.6"/>
+  <ellipse cx="148" cy="44" rx="10" ry="7" fill="#ffffff" fill-opacity="0.5"/>
+</svg>

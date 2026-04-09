@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 海星光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#FF7043" stroke="#FF5722" stroke-width="1"/>
+  <!-- 海星 -->
+  <g transform="translate(7, 3)">
+    <polygon points="9,0 11,7 18,7 12,12 14,19 9,15 4,19 6,12 0,7 7,7" fill="#FF7043" stroke="#FF5722" stroke-width="1"/>
+    <!-- 中心点 -->
+    <circle cx="9" cy="10" r="2" fill="#FFAB91"/>
+  </g>
+</svg>

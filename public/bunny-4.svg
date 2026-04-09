@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="rb4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d1fae5">
+        <animate attributeName="stop-color" values="#d1fae5;#a7f3d0;#d1fae5" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#a7f3d0"/>
+    </linearGradient>
+    <linearGradient id="rb4b" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 身体 -->
+  <ellipse cx="100" cy="120" rx="70" ry="65" fill="url(#rb4)"/>
+  
+  <!-- 左垂耳 -->
+  <ellipse cx="55" cy="50" rx="18" ry="50" fill="url(#rb4)" transform="rotate(-20 55 70)"/>
+  <ellipse cx="55" cy="50" rx="9" ry="35" fill="#fda4af" transform="rotate(-20 55 70)"/>
+  
+  <!-- 右垂耳 -->
+  <ellipse cx="145" cy="50" rx="18" ry="50" fill="url(#rb4)" transform="rotate(20 145 70)"/>
+  <ellipse cx="145" cy="50" rx="9" ry="35" fill="#fda4af" transform="rotate(20 145 70)"/>
+  
+  <!-- 脸部 -->
+  <ellipse cx="100" cy="115" rx="55" ry="50" fill="#ffffff"/>
+  
+  <!-- 眼睛 -->
+  <circle cx="75" cy="105" r="10" fill="#1e1b4b">
+    <animate attributeName="r" values="10;1;10" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="125" cy="105" r="10" fill="#1e1b4b">
+    <animate attributeName="r" values="10;1;10" dur="4s" repeatCount="indefinite" begin="0.08s"/>
+  </circle>
+  
+  <!-- 高光 -->
+  <circle cx="78" cy="102" r="3" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="128" cy="102" r="3" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="4s" repeatCount="indefinite" begin="0.08s"/>
+  </circle>
+  
+  <!-- 腮红 -->
+  <ellipse cx="55" cy="120" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.75;0.5" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="145" cy="120" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.75;0.5" dur="2s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="118" rx="5" ry="4" fill="url(#rb4b)"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M94,125 Q100,130 106,125" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- 围巾 -->
+  <ellipse cx="100" cy="155" rx="50" ry="15" fill="url(#rb4b)" fill-opacity="0.3"/>
+  <path d="M60,150 Q100,165 140,150" fill="none" stroke="url(#rb4b)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- 名字 -->
+  <text x="100" y="195" font-family="'Nunito', sans-serif" font-size="15" font-weight="700" fill="#059669" text-anchor="middle">dawnwenhui</text>
+</svg>

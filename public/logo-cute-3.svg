@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="pastel1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e7ff"/>
+      <stop offset="50%" stop-color="#fae8ff"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </linearGradient>
+    
+    <linearGradient id="pastel2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆润方角背景 -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#pastel1)"/>
+  
+  <!-- 彩色点点装饰 -->
+  <circle cx="30" cy="35" r="8" fill="#f472b6" fill-opacity="0.5"/>
+  <circle cx="175" cy="30" r="6" fill="#818cf8" fill-opacity="0.5"/>
+  <circle cx="25" cy="170" r="5" fill="#34d399" fill-opacity="0.5"/>
+  <circle cx="180" cy="165" r="7" fill="#fbbf24" fill-opacity="0.5"/>
+  
+  <!-- 大 D - 圆润可爱 -->
+  <text x="100" y="135" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="105" font-weight="900" fill="url(#pastel2)" text-anchor="middle">D</text>
+  
+  <!-- 腮红 -->
+  <ellipse cx="50" cy="110" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5"/>
+  <ellipse cx="150" cy="110" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5"/>
+  
+  <!-- 可爱表情 -->
+  <circle cx="70" cy="100" r="4" fill="#6366f1" fill-opacity="0.3"/>
+  <circle cx="130" cy="100" r="4" fill="#6366f1" fill-opacity="0.3"/>
+  
+  <!-- 底部波浪 -->
+  <path d="M30,165 Q65,155 100,165 T170,165" fill="none" stroke="url(#pastel2)" stroke-width="3" stroke-opacity="0.3" stroke-linecap="round"/>
+  
+  <!-- 小星星 -->
+  <path d="M45,175 L47,180 L52,180 L48,184 L50,189 L45,185 L40,189 L42,184 L38,180 L43,180 Z" fill="#fbbf24" fill-opacity="0.6"/>
+  <path d="M155,175 L157,180 L162,180 L158,184 L160,189 L155,185 L150,189 L152,184 L148,180 L153,180 Z" fill="#c084fc" fill-opacity="0.6"/>
+</svg>

@@ -1,0 +1,323 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 25, 41;
+  --background-end-rgb: 15, 41, 65;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 10, 25, 41;
+    --background-end-rgb: 15, 41, 65;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      180deg,
+      rgb(var(--background-start-rgb)) 0%,
+      rgb(var(--background-end-rgb)) 100%
+    );
+  min-height: 100vh;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><text y='30' font-size='24'>🐠</text></svg>"), auto;
+}
+
+/* 海洋生物漂浮动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, -30px) rotate(5deg);
+  }
+  50% {
+    transform: translate(60px, 0) rotate(0deg);
+  }
+  75% {
+    transform: translate(30px, 30px) rotate(-5deg);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate(0, 0) rotate(-3deg);
+  }
+  50% {
+    transform: translate(40px, -20px) rotate(3deg);
+  }
+}
+
+@keyframes floatFast {
+  0%, 100% {
+    transform: translate(0, 0) rotate(5deg);
+  }
+  33% {
+    transform: translate(-30px, -25px) rotate(-5deg);
+  }
+  66% {
+    transform: translate(20px, 15px) rotate(3deg);
+  }
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes swim {
+  0% {
+    transform: translate(-100px, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(100vw + 100px), 0);
+    opacity: 0;
+  }
+}
+
+@keyframes swimReverse {
+  0% {
+    transform: translate(calc(100vw + 100px), 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes jellyFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 20s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: floatFast 12s ease-in-out infinite;
+}
+
+.animate-bubble {
+  animation: bubbleRise 8s ease-in infinite;
+}
+
+.animate-wobble {
+  animation: wobble 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.animate-swim {
+  animation: swim 20s linear infinite;
+}
+
+.animate-swim-reverse {
+  animation: swimReverse 25s linear infinite;
+}
+
+.animate-jelly {
+  animation: jellyFloat 5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 10s linear infinite;
+}
+
+/* 鼠标跟随动画 */
+@keyframes follow {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(15px, -10px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(30px, 0) scale(1);
+    opacity: 0.8;
+  }
+}
+
+.animate-follow {
+  animation: follow 2s ease-in-out infinite;
+}
+
+/* 玻璃态效果 */
+.glass {
+  background: rgba(15, 41, 65, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* 发光效果 */
+.glow {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 25, 41, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #0ea5e9, #38bdf8);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #38bdf8, #7dd3fc);
+}
+
+/* 卡片悬浮效果 */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+/* 按钮流光效果 */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 霓虹边框动画 */
+@keyframes neonBorder {
+  0%, 100% {
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  }
+  50% {
+    border-color: rgba(56, 189, 248, 0.7);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  }
+}
+
+.animate-neon {
+  animation: neonBorder 3s ease-in-out infinite;
+}
+
+/* 波浪动画 */
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-wave {
+  animation: wave 10s linear infinite;
+}

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="grad3a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="grad3b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 深色背景圆 -->
+  <circle cx="100" cy="100" r="95" fill="url(#grad3a)"/>
+  
+  <!-- 外圈装饰 -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="url(#grad3b)" stroke-width="2" stroke-opacity="0.5"/>
+  <circle cx="100" cy="100" r="80" fill="none" stroke="url(#grad3b)" stroke-width="1" stroke-opacity="0.3"/>
+  
+  <!-- D 字母 -->
+  <text x="100" y="138" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="110" font-weight="800" fill="url(#grad3b)" text-anchor="middle" filter="url(#glow3)">D</text>
+  
+  <!-- 小装饰 -->
+  <circle cx="155" cy="45" r="6" fill="#06b6d4"/>
+  <circle cx="170" cy="60" r="4" fill="#8b5cf6"/>
+  <circle cx="45" cy="155" r="5" fill="#ec4899"/>
+</svg>

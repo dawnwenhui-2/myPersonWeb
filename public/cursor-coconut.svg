@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 椰子光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#8D6E63" stroke="#6D4C41" stroke-width="1"/>
+  <!-- 椰子 -->
+  <g transform="translate(6, 4)">
+    <circle cx="10" cy="12" r="9" fill="#5D4037"/>
+    <!-- 椰子毛 -->
+    <ellipse cx="10" cy="12" rx="9" ry="9" fill="#8D6E63"/>
+    <!-- 眼睛表情 -->
+    <circle cx="6" cy="10" r="2" fill="#1A1A1A"/>
+    <circle cx="14" cy="10" r="2" fill="#1A1A1A"/>
+    <circle cx="6.5" cy="9.5" r="0.8" fill="#FFFFFF"/>
+    <circle cx="14.5" cy="9.5" r="0.8" fill="#FFFFFF"/>
+    <!-- 微笑 -->
+    <path d="M6,15 Q10,18 14,15" fill="none" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- 腮红 -->
+    <ellipse cx="4" cy="13" rx="2" ry="1.5" fill="#FFAB91" fill-opacity="0.6"/>
+    <ellipse cx="16" cy="13" rx="2" ry="1.5" fill="#FFAB91" fill-opacity="0.6"/>
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <!-- 极光渐变 -->
+    <linearGradient id="auroraLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    
+    <!-- 深色渐变 -->
+    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f0a1e"/>
+    </linearGradient>
+    
+    <!-- 光晕 -->
+    <filter id="auroraGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="800" height="800" fill="url(#darkGrad)"/>
+  
+  <!-- 背景极光效果 -->
+  <ellipse cx="400" cy="350" rx="300" ry="200" fill="#6366f1" fill-opacity="0.1"/>
+  <ellipse cx="450" cy="380" rx="250" ry="150" fill="#8b5cf6" fill-opacity="0.08"/>
+  <ellipse cx="350" cy="400" rx="200" ry="120" fill="#06b6d4" fill-opacity="0.06"/>
+  
+  <!-- 主图形：代码标签 <D/> -->
+  <g filter="url(#auroraGlow)">
+    <!-- 左括号 < -->
+    <path d="M280,400 L320,360 L320,375 L320,375 L320,425 L320,440 Z" 
+          fill="url(#auroraLinear)"/>
+    
+    <!-- 字母 D -->
+    <text x="400" y="445" font-family="'SF Mono', 'Fira Code', monospace" 
+          font-size="160" font-weight="bold" fill="url(#auroraLinear)" text-anchor="middle">D</text>
+    
+    <!-- 右括号 /> -->
+    <path d="M520,400 L480,360 L480,375 L480,375 L480,425 L480,440 Z" 
+          fill="url(#auroraLinear)"/>
+    <rect x="540" y="385" width="40" height="30" fill="url(#auroraLinear)"/>
+  </g>
+  
+  <!-- 装饰线条 -->
+  <line x1="150" y1="550" x2="350" y2="550" stroke="#6366f1" stroke-width="2" stroke-opacity="0.5"/>
+  <line x1="450" y1="550" x2="650" y2="550" stroke="#06b6d4" stroke-width="2" stroke-opacity="0.5"/>
+  
+  <!-- 姓名 -->
+  <text x="400" y="640" font-family="'SF Pro Display', 'Helvetica Neue', sans-serif" 
+        font-size="42" font-weight="600" fill="#f8fafc" text-anchor="middle">dawnwenhui</text>
+  
+  <!-- 副标题 -->
+  <text x="400" y="685" font-family="'SF Pro Text', sans-serif" 
+        font-size="14" font-weight="300" fill="#8b5cf6" text-anchor="middle" letter-spacing="6">AI FRONTEND</text>
+  
+  <!-- 底部技术栈 -->
+  <g font-family="'SF Mono', monospace" font-size="12" fill="#06b6d4" fill-opacity="0.5" text-anchor="middle">
+    <text x="300" y="750">Vue</text>
+    <text x="370" y="750">React</text>
+    <text x="430" y="750">TS</text>
+    <text x="500" y="750">AI</text>
+  </g>
+  
+  <!-- 角落装饰 -->
+  <rect x="30" y="30" width="40" height="2" fill="#6366f1" fill-opacity="0.5"/>
+  <rect x="30" y="30" width="2" height="40" fill="#6366f1" fill-opacity="0.5"/>
+  
+  <rect x="730" y="30" width="40" height="2" fill="#06b6d4" fill-opacity="0.5"/>
+  <rect x="768" y="30" width="2" height="40" fill="#06b6d4" fill-opacity="0.5"/>
+  
+  <rect x="30" y="768" width="40" height="2" fill="#8b5cf6" fill-opacity="0.5"/>
+  <rect x="30" y="730" width="2" height="40" fill="#8b5cf6" fill-opacity="0.5"/>
+  
+  <rect x="730" y="768" width="40" height="2" fill="#ec4899" fill-opacity="0.5"/>
+  <rect x="768" y="730" width="2" height="40" fill="#ec4899" fill-opacity="0.5"/>
+</svg>

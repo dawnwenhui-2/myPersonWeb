@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <!-- 主渐变：数字极光 -->
+    <radialGradient id="auroraGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    
+    <!-- 中心渐变 -->
+    <radialGradient id="centerGradient" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </radialGradient>
+    
+    <!-- 六边形裁剪 -->
+    <clipPath id="hexClip">
+      <polygon points="400,295 477,347 477,453 400,505 323,453 323,347"/>
+    </clipPath>
+    
+    <!-- 光晕滤镜 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 柔和阴影 -->
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#6366f1" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- 深色背景 -->
+  <rect width="800" height="800" fill="#0a0a14"/>
+  
+  <!-- 背景极光光晕 -->
+  <ellipse cx="400" cy="400" rx="350" ry="350" fill="url(#auroraGlow)"/>
+  
+  <!-- 六边形网格背景 -->
+  <g stroke="#6366f1" stroke-opacity="0.06" fill="none">
+    <polygon points="100,155 143,132 186,155 186,241 143,264 100,241"/>
+    <polygon points="186,155 229,132 272,155 272,241 229,264 186,241"/>
+    <polygon points="272,155 315,132 358,155 358,241 315,264 272,241"/>
+    <polygon points="358,155 401,132 444,155 444,241 401,264 358,241"/>
+    <polygon points="444,155 487,132 530,155 530,241 487,264 444,241"/>
+    <polygon points="530,155 573,132 616,155 616,241 573,264 530,241"/>
+    <polygon points="614,155 657,132 700,155 700,241 657,264 614,241"/>
+    <polygon points="143,241 186,218 229,241 229,327 186,350 143,327"/>
+    <polygon points="229,241 272,218 315,241 315,327 272,350 229,327"/>
+    <polygon points="315,241 358,218 401,241 401,327 358,350 315,327"/>
+    <polygon points="401,241 444,218 487,241 487,327 444,350 401,327"/>
+    <polygon points="487,241 530,218 573,241 573,327 530,350 487,327"/>
+    <polygon points="573,241 616,218 659,241 659,327 616,350 573,327"/>
+    <polygon points="100,327 143,304 186,327 186,413 143,436 100,413"/>
+    <polygon points="186,327 229,304 272,327 272,413 229,436 186,413"/>
+    <polygon points="272,327 315,304 358,327 358,413 315,436 272,413"/>
+    <polygon points="358,327 401,304 444,327 444,413 401,436 358,413"/>
+    <polygon points="444,327 487,304 530,327 530,413 487,436 444,413"/>
+    <polygon points="530,327 573,304 616,327 616,413 573,436 530,413"/>
+    <polygon points="614,327 657,304 700,327 700,413 657,436 614,413"/>
+    <polygon points="143,413 186,390 229,413 229,499 186,522 143,499"/>
+    <polygon points="229,413 272,390 315,413 315,499 272,522 229,499"/>
+    <polygon points="315,413 358,390 401,413 401,499 358,522 315,499"/>
+    <polygon points="401,413 444,390 487,413 487,499 444,522 401,499"/>
+    <polygon points="487,413 530,390 573,413 573,499 530,522 487,499"/>
+    <polygon points="573,413 616,390 659,413 659,499 616,522 573,499"/>
+  </g>
+  
+  <!-- 外轨道环 -->
+  <circle cx="400" cy="400" r="200" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.3"/>
+  <circle cx="400" cy="400" r="175" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.2"/>
+  <circle cx="400" cy="400" r="150" fill="none" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.15"/>
+  
+  <!-- 轨道数据点 -->
+  <circle cx="400" cy="200" r="5" fill="#6366f1" filter="url(#glow)"/>
+  <circle cx="573" cy="500" r="5" fill="#06b6d4" filter="url(#glow)"/>
+  <circle cx="227" cy="500" r="5" fill="#ec4899" filter="url(#glow)"/>
+  
+  <!-- 连接线 -->
+  <line x1="400" y1="400" x2="400" y2="200" stroke="#6366f1" stroke-width="1" stroke-opacity="0.2"/>
+  <line x1="400" y1="400" x2="573" y2="500" stroke="#06b6d4" stroke-width="1" stroke-opacity="0.2"/>
+  <line x1="400" y1="400" x2="227" y2="500" stroke="#ec4899" stroke-width="1" stroke-opacity="0.2"/>
+  
+  <!-- 主 Logo 区域：渐变圆 + 六边形遮罩 -->
+  <g filter="url(#softShadow)">
+    <circle cx="400" cy="400" r="110" fill="url(#centerGradient)"/>
+  </g>
+  
+  <!-- 六边形内波形 -->
+  <g clip-path="url(#hexClip)">
+    <path d="M300,400 Q350,380 400,400 T500,400" fill="none" stroke="#06b6d4" stroke-width="2" stroke-opacity="0.6"/>
+    <path d="M300,420 Q350,400 400,420 T500,420" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-opacity="0.5"/>
+    <path d="M300,440 Q350,420 400,440 T500,440" fill="none" stroke="#ec4899" stroke-width="2" stroke-opacity="0.4"/>
+  </g>
+  
+  <!-- 六边形边框 -->
+  <polygon points="400,295 477,347 477,453 400,505 323,453 323,347" 
+           fill="none" stroke="#f8fafc" stroke-width="2"/>
+  
+  <!-- 中心字母 D -->
+  <text x="400" y="425" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" 
+        font-size="80" font-weight="bold" fill="#f8fafc" text-anchor="middle" dominant-baseline="middle">D</text>
+  
+  <!-- 光标闪烁效果 -->
+  <rect x="448" y="375" width="4" height="55" fill="#06b6d4">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- 姓名 -->
+  <text x="400" y="620" font-family="'SF Pro Display', 'Helvetica Neue', sans-serif" 
+        font-size="36" font-weight="600" fill="#f8fafc" text-anchor="middle">dawnwenhui</text>
+  
+  <!-- 副标题 -->
+  <text x="400" y="660" font-family="'SF Pro Text', 'Helvetica Neue', sans-serif" 
+        font-size="14" font-weight="300" fill="#06b6d4" text-anchor="middle" letter-spacing="4">FRONTEND ENGINEER</text>
+  
+  <!-- 代码符号装饰 -->
+  <text x="60" y="720" font-family="'SF Mono', monospace" font-size="16" fill="#8b5cf6" fill-opacity="0.5">&lt;</text>
+  <text x="720" y="720" font-family="'SF Mono', monospace" font-size="16" fill="#8b5cf6" fill-opacity="0.5">/&gt;</text>
+  
+  <!-- 技术标签 -->
+  <text x="720" y="740" font-family="'SF Mono', monospace" font-size="11" fill="#06b6d4" fill-opacity="0.4" text-anchor="end">AI · LLM · RAG</text>
+  <text x="80" y="740" font-family="'SF Mono', monospace" font-size="11" fill="#f8fafc" fill-opacity="0.2">v1.0</text>
+  
+  <!-- 角落装饰 -->
+  <g stroke="#6366f1" stroke-width="1" fill="none" stroke-opacity="0.3">
+    <path d="M30,30 L60,30 M30,30 L30,60"/>
+    <path d="M770,30 L740,30 M770,30 L770,60"/>
+    <path d="M770,770 L740,770 M770,770 L770,740"/>
+    <path d="M30,770 L60,770 M30,770 L30,740"/>
+  </g>
+</svg>

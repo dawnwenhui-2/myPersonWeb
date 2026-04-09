@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 沙滩球光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#FF5722" stroke="#E64A19" stroke-width="1"/>
+  <!-- 沙滩球 -->
+  <g transform="translate(6, 3)">
+    <circle cx="10" cy="12" r="9" fill="#FFEB3B"/>
+    <!-- 条纹 -->
+    <path d="M10,3 Q5,12 10,21" fill="none" stroke="#F44336" stroke-width="3"/>
+    <path d="M10,3 Q15,12 10,21" fill="none" stroke="#2196F3" stroke-width="3"/>
+    <path d="M3,8 Q10,5 17,8" fill="none" stroke="#4CAF50" stroke-width="2"/>
+    <path d="M3,16 Q10,19 17,16" fill="none" stroke="#9C27B0" stroke-width="2"/>
+    <!-- 表情 -->
+    <circle cx="7" cy="11" r="1.5" fill="#1A1A1A"/>
+    <circle cx="13" cy="11" r="1.5" fill="#1A1A1A"/>
+    <path d="M7,15 Q10,17 13,15" fill="none" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+  </g>
+</svg>

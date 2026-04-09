@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <filter id="sketch2" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5"/>
+    </filter>
+    
+    <linearGradient id="warmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    
+    <radialGradient id="glowBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- 温暖背景 -->
+  <rect width="800" height="800" fill="#fdfaf7"/>
+  
+  <!-- 柔和光晕 -->
+  <ellipse cx="400" cy="380" rx="280" ry="260" fill="url(#glowBg)"/>
+  
+  <!-- AI 神经网络 - 手绘风格 -->
+  <g filter="url(#sketch2)" stroke="#8b5cf6" stroke-width="2" fill="none">
+    <!-- 主连接线 -->
+    <path d="M250,300 Q350,250 400,300 Q450,350 550,300" stroke-opacity="0.3"/>
+    <path d="M250,400 Q350,350 400,400 Q450,450 550,400" stroke-opacity="0.3"/>
+    <path d="M250,500 Q350,450 400,500 Q450,550 550,500" stroke-opacity="0.3"/>
+    <path d="M300,200 Q350,350 400,400 Q450,450 500,600" stroke-opacity="0.2"/>
+    
+    <!-- 节点 -->
+    <circle cx="250" cy="300" r="12" fill="#8b5cf6" fill-opacity="0.3"/>
+    <circle cx="400" cy="300" r="10" fill="#8b5cf6" fill-opacity="0.4"/>
+    <circle cx="550" cy="300" r="12" fill="#8b5cf6" fill-opacity="0.3"/>
+    
+    <circle cx="250" cy="400" r="15" fill="#6366f1" fill-opacity="0.4"/>
+    <circle cx="400" cy="400" r="25" fill="#f472b6" fill-opacity="0.5"/>
+    <circle cx="550" cy="400" r="15" fill="#06b6d4" fill-opacity="0.4"/>
+    
+    <circle cx="250" cy="500" r="12" fill="#06b6d4" fill-opacity="0.3"/>
+    <circle cx="400" cy="500" r="10" fill="#8b5cf6" fill-opacity="0.4"/>
+    <circle cx="550" cy="500" r="12" fill="#f472b6" fill-opacity="0.3"/>
+  </g>
+  
+  <!-- 手绘 D 字母 - 中心 -->
+  <text x="400" y="450" font-family="'Segoe Script', 'Brush Script MT', cursive" 
+        font-size="180" font-weight="400" fill="url(#warmGrad)" 
+        text-anchor="middle" dominant-baseline="middle"
+        filter="url(#sketch2)">D</text>
+  
+  <!-- 手绘星星和闪光 -->
+  <g fill="#f472b6" filter="url(#sketch2)">
+    <!-- 大星星 -->
+    <path d="M180,180 L190,210 L220,210 L195,230 L205,260 L180,240 L155,260 L165,230 L140,210 L170,210 Z" fill-opacity="0.8"/>
+    
+    <!-- 小星星 -->
+    <circle cx="620" cy="150" r="8" fill="#8b5cf6" fill-opacity="0.6"/>
+    <circle cx="680" cy="200" r="5" fill="#06b6d4" fill-opacity="0.5"/>
+    <circle cx="120" cy="350" r="6" fill="#f472b6" fill-opacity="0.4"/>
+    <circle cx="680" cy="450" r="7" fill="#8b5cf6" fill-opacity="0.5"/>
+    <circle cx="100" cy="550" r="5" fill="#06b6d4" fill-opacity="0.4"/>
+    <circle cx="700" cy="600" r="8" fill="#f472b6" fill-opacity="0.6"/>
+  </g>
+  
+  <!-- 手绘云朵 -->
+  <g fill="#8b5cf6" fill-opacity="0.1" filter="url(#sketch2)">
+    <ellipse cx="150" cy="600" rx="60" ry="35"/>
+    <ellipse cx="190" cy="590" rx="40" ry="30"/>
+    <ellipse cx="650" cy="650" rx="50" ry="30"/>
+    <ellipse cx="690" cy="640" rx="35" ry="25"/>
+  </g>
+  
+  <!-- 手绘波浪底部 -->
+  <path d="M0,700 Q100,680 200,700 T400,700 T600,700 T800,700 L800,800 L0,800 Z" 
+        fill="#06b6d4" fill-opacity="0.08"/>
+  <path d="M0,720 Q100,700 200,720 T400,720 T600,720 T800,720 L800,800 L0,800 Z" 
+        fill="#8b5cf6" fill-opacity="0.06"/>
+  
+  <!-- 姓名 -->
+  <text x="400" y="620" font-family="'Segoe Script', cursive" 
+        font-size="42" fill="#1e1b4b" text-anchor="middle" filter="url(#sketch2)">dawnwenhui</text>
+  
+  <!-- 手绘标签 -->
+  <g filter="url(#sketch2)">
+    <rect x="280" y="660" width="240" height="40" rx="20" 
+          fill="none" stroke="url(#warmGrad)" stroke-width="2"/>
+  </g>
+  <text x="400" y="688" font-family="'Segoe Script', cursive" 
+        font-size="14" fill="#6366f1" text-anchor="middle">AI · Handcraft · WebGL</text>
+  
+  <!-- 装饰线条 -->
+  <g stroke="#8b5cf6" stroke-width="1.5" fill="none" stroke-opacity="0.3" filter="url(#sketch2)">
+    <path d="M50,100 Q100,90 150,100"/>
+    <path d="M650,100 Q700,90 750,100"/>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="minimalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 极简背景 -->
+  <rect width="800" height="800" fill="#0f0f14"/>
+  
+  <!-- 极简几何装饰 -->
+  <line x1="100" y1="300" x2="300" y2="300" stroke="#6366f1" stroke-width="1"/>
+  <line x1="500" y1="300" x2="700" y2="300" stroke="#6366f1" stroke-width="1"/>
+  
+  <!-- 主标识 -->
+  <text x="400" y="350" font-family="'SF Pro Display', 'Helvetica Neue', sans-serif" 
+        font-size="200" font-weight="200" fill="url(#minimalGrad)" text-anchor="middle">D</text>
+  
+  <!-- 装饰线 -->
+  <rect x="280" y="380" width="240" height="2" fill="url(#accentGrad)"/>
+  
+  <!-- 姓名 -->
+  <text x="400" y="480" font-family="'SF Pro Display', sans-serif" 
+        font-size="28" font-weight="400" fill="#f8fafc" text-anchor="middle" letter-spacing="12">DAWNWENHUI</text>
+  
+  <!-- 职业 -->
+  <text x="400" y="530" font-family="'SF Mono', monospace" 
+        font-size="12" fill="#6366f1" text-anchor="middle" letter-spacing="4">FRONTEND ENGINEER</text>
+  
+  <!-- 分隔线 -->
+  <line x1="350" y1="580" x2="450" y2="580" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+  
+  <!-- 技术标签 -->
+  <g font-family="'SF Mono', monospace" font-size="11" fill="#64748b" text-anchor="middle">
+    <text x="280" y="650">Vue</text>
+    <text x="340" y="650">·</text>
+    <text x="380" y="650">React</text>
+    <text x="440" y="650">·</text>
+    <text x="480" y="650">TypeScript</text>
+    <text x="560" y="650">·</text>
+    <text x="610" y="650">AI</text>
+  </g>
+  
+  <!-- 底部极简线 -->
+  <line x1="300" y1="720" x2="500" y2="720" stroke="#1e1b4b" stroke-width="1"/>
+</svg>

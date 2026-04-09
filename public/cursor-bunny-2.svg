@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 萌萌沙滩兔光标 - 手势版 -->
+  <!-- 身体 -->
+  <ellipse cx="16" cy="24" rx="7" ry="6" fill="#FFE4E1"/>
+  
+  <!-- 耳朵 -->
+  <ellipse cx="11" cy="15" rx="3" ry="7" fill="#FFE4E1"/>
+  <ellipse cx="11" cy="15" rx="1.5" ry="4.5" fill="#FFB6C1"/>
+  <ellipse cx="21" cy="15" rx="3" ry="7" fill="#FFE4E1"/>
+  <ellipse cx="21" cy="15" rx="1.5" ry="4.5" fill="#FFB6C1"/>
+  
+  <!-- 脸 -->
+  <circle cx="16" cy="22" r="5.5" fill="#FFFFFF"/>
+  
+  <!-- 眼睛 - 眨眼 -->
+  <path d="M12,21 Q14,19 16,21" fill="none" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M16,21 Q18,19 20,21" fill="none" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="11" cy="23" rx="1.5" ry="1" fill="#FFB6C1" fill-opacity="0.7"/>
+  <ellipse cx="21" cy="23" rx="1.5" ry="1" fill="#FFB6C1" fill-opacity="0.7"/>
+  
+  <!-- 爱心鼻子 -->
+  <path d="M15,23 C15,22 16,22 16,23 C16,22 17,22 17,23 C17,24 16,25 16,25 C16,25 15,24 15,23" fill="#FF69B4"/>
+  
+  <!-- 举起的小手 -->
+  <ellipse cx="9" cy="20" rx="3" ry="2.5" fill="#FFE4E1" transform="rotate(-20 9 20)"/>
+  <ellipse cx="23" cy="20" rx="3" ry="2.5" fill="#FFE4E1" transform="rotate(20 23 20)"/>
+  
+  <!-- 指针箭头 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#FFE4E1" stroke="#FFB6C1" stroke-width="1"/>
+</svg>

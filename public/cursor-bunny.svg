@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 萌萌沙滩兔光标 -->
+  <!-- 身体 -->
+  <ellipse cx="16" cy="22" rx="8" ry="7" fill="#FFE4E1"/>
+  
+  <!-- 耳朵 -->
+  <ellipse cx="11" cy="12" rx="3" ry="7" fill="#FFE4E1"/>
+  <ellipse cx="11" cy="12" rx="1.5" ry="4.5" fill="#FFB6C1"/>
+  <ellipse cx="21" cy="12" rx="3" ry="7" fill="#FFE4E1"/>
+  <ellipse cx="21" cy="12" rx="1.5" ry="4.5" fill="#FFB6C1"/>
+  
+  <!-- 脸 -->
+  <circle cx="16" cy="20" r="6" fill="#FFFFFF"/>
+  
+  <!-- 眼睛 -->
+  <circle cx="13" cy="19" r="1.5" fill="#1e1b4b"/>
+  <circle cx="19" cy="19" r="1.5" fill="#1e1b4b"/>
+  <circle cx="13.5" cy="18.5" r="0.5" fill="#FFFFFF"/>
+  <circle cx="19.5" cy="18.5" r="0.5" fill="#FFFFFF"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="10" cy="21" rx="1.5" ry="1" fill="#FFB6C1" fill-opacity="0.6"/>
+  <ellipse cx="22" cy="21" rx="1.5" ry="1" fill="#FFB6C1" fill-opacity="0.6"/>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="16" cy="20.5" rx="1" ry="0.8" fill="#FF69B4"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M14.5,22 Q16,23 17.5,22" fill="none" stroke="#FF69B4" stroke-width="0.5" stroke-linecap="round"/>
+  
+  <!-- 指针箭头 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#FFE4E1" stroke="#FFB6C1" stroke-width="1"/>
+</svg>

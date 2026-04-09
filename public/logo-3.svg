@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f472b6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 主形状：代码标签 -->
+  <rect x="25" y="40" width="150" height="120" rx="15" 
+        fill="none" stroke="url(#grad3)" stroke-width="3"/>
+  
+  <!-- 内部斜切装饰 -->
+  <polygon points="25,40 80,40 25,100" fill="url(#grad3)" opacity="0.3"/>
+  
+  <!-- 文字 D -->
+  <text x="60" y="135" font-family="Arial, sans-serif" font-size="100" font-weight="bold" fill="url(#grad3)">D</text>
+  
+  <!-- 省略号装饰 -->
+  <circle cx="145" cy="60" r="5" fill="#6366f1"/>
+  <circle cx="160" cy="60" r="5" fill="#8b5cf6"/>
+  <circle cx="175" cy="60" r="5" fill="#06b6d4"/>
+  
+  <!-- 底部标签 -->
+  <text x="45" y="175" font-family="Arial, sans-serif" font-size="14" fill="#8b5cf6" letter-spacing="3">FRONTEND</text>
+</svg>

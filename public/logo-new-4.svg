@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <clipPath id="hex4">
+      <polygon points="100,15 170,55 170,145 100,185 30,145 30,55"/>
+    </clipPath>
+  </defs>
+  
+  <!-- 六边形背景 -->
+  <polygon points="100,15 170,55 170,145 100,185 30,145 30,55" fill="url(#grad4)"/>
+  
+  <!-- 六边形内D -->
+  <text x="100" y="135" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="105" font-weight="700" fill="#ffffff" text-anchor="middle">D</text>
+</svg>

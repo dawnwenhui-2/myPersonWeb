@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="cuteGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 卡通猫头背景 -->
+  <ellipse cx="100" cy="105" rx="85" ry="80" fill="url(#cuteGrad2)"/>
+  
+  <!-- 猫耳朵 -->
+  <path d="M30,60 L50,25 L70,55 Z" fill="#fef3c7" stroke="#f97316" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M170,60 L150,25 L130,55 Z" fill="#fef3c7" stroke="#f97316" stroke-width="2" stroke-linejoin="round"/>
+  
+  <!-- 耳朵内部 -->
+  <path d="M40,55 L50,35 L60,52 Z" fill="#fda4af"/>
+  <path d="M160,55 L150,35 L140,52 Z" fill="#fda4af"/>
+  
+  <!-- 眼睛 -->
+  <ellipse cx="70" cy="95" rx="18" ry="22" fill="#1e1b4b"/>
+  <ellipse cx="130" cy="95" rx="18" ry="22" fill="#1e1b4b"/>
+  
+  <!-- 眼睛高光 -->
+  <circle cx="75" cy="88" r="6" fill="#ffffff"/>
+  <circle cx="135" cy="88" r="6" fill="#ffffff"/>
+  <circle cx="70" cy="100" r="3" fill="#ffffff" fill-opacity="0.5"/>
+  <circle cx="130" cy="100" r="3" fill="#ffffff" fill-opacity="0.5"/>
+  
+  <!-- 腮红 -->
+  <ellipse cx="55" cy="115" rx="12" ry="8" fill="#fda4af" fill-opacity="0.6"/>
+  <ellipse cx="145" cy="115" rx="12" ry="8" fill="#fda4af" fill-opacity="0.6"/>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="115" rx="6" ry="5" fill="#f97316"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M85,125 Q100,140 115,125" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- D 字母放在猫头上 -->
+  <text x="100" y="178" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="28" font-weight="800" fill="#f97316" text-anchor="middle">dawnwenhui</text>
+</svg>

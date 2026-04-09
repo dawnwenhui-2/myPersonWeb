@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9a8d4">
+        <animate attributeName="stop-color" values="#f9a8d4;#c4b5fd;#93c5fd;#f9a8d4" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#c4b5fd">
+        <animate attributeName="stop-color" values="#c4b5fd;#93c5fd;#f9a8d4;#c4b5fd" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#93c5fd">
+        <animate attributeName="stop-color" values="#93c5fd;#f9a8d4;#c4b5fd;#93c5fd" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <filter id="agf1">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#c4b5fd" flood-opacity="0.4">
+        <animate attributeName="flood-opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite"/>
+      </feDropShadow>
+    </filter>
+  </defs>
+  
+  <!-- 背景圆 -->
+  <circle cx="100" cy="100" r="90" fill="url(#ag1)" filter="url(#agf1)">
+    <animateTransform attributeName="transform" type="scale" values="1;1.02;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 腮红 -->
+  <ellipse cx="55" cy="115" rx="15" ry="10" fill="#fda4af" fill-opacity="0.4">
+    <animate attributeName="fill-opacity" values="0.4;0.6;0.4" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="145" cy="115" rx="15" ry="10" fill="#fda4af" fill-opacity="0.4">
+    <animate attributeName="fill-opacity" values="0.4;0.6;0.4" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- D 字母 -->
+  <text x="100" y="135" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="95" font-weight="800" fill="#ffffff" text-anchor="middle">D</text>
+  
+  <!-- 眼睛闪烁 -->
+  <circle cx="65" cy="65" r="6" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="135" cy="65" r="6" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 星星旋转 -->
+  <g transform-origin="45 150">
+    <path d="M45,150 L48,158 L57,158 L50,164 L53,173 L45,167 L37,173 L40,164 L33,158 L42,158 Z" fill="#fde68a" fill-opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 45 162;360 45 162" dur="8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g transform-origin="155 150">
+    <path d="M155,150 L157,156 L163,156 L158,160 L160,166 L155,162 L150,166 L152,160 L147,156 L153,156 Z" fill="#fde68a" fill-opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" values="0 155 162;360 155 162" dur="6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- 云朵浮动 -->
+  <ellipse cx="160" cy="40" rx="15" ry="10" fill="#ffffff" fill-opacity="0.6">
+    <animate attributeName="cy" values="40;35;40" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="172" cy="42" rx="12" ry="8" fill="#ffffff" fill-opacity="0.6">
+    <animate attributeName="cy" values="42;37;42" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="148" cy="44" rx="10" ry="7" fill="#ffffff" fill-opacity="0.5">
+    <animate attributeName="cy" values="44;39;44" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
+</svg>

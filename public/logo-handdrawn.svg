@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <!-- 手绘纹理 -->
+    <filter id="sketch" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    
+    <!-- 柔和阴影 -->
+    <filter id="soft">
+      <feDropShadow dx="2" dy="4" stdDeviation="8" flood-color="#6366f1" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- AI发光 -->
+    <filter id="aiGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 渐变 -->
+    <linearGradient id="watercolor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 柔和渐变背景 -->
+  <rect width="800" height="800" fill="#faf8f5"/>
+  
+  <!-- 水彩晕染背景 -->
+  <ellipse cx="400" cy="400" rx="300" ry="280" fill="#6366f1" fill-opacity="0.08"/>
+  <ellipse cx="350" cy="450" rx="250" ry="220" fill="#8b5cf6" fill-opacity="0.06"/>
+  <ellipse cx="480" cy="350" rx="200" ry="180" fill="#06b6d4" fill-opacity="0.05"/>
+  
+  <!-- 手绘风格大字母 D -->
+  <g filter="url(#soft)">
+    <!-- 主字母 - 手绘风格 -->
+    <text x="400" y="420" font-family="'Segoe Script', 'Brush Script MT', cursive" 
+          font-size="280" font-weight="400" fill="url(#watercolor)" 
+          text-anchor="middle" dominant-baseline="middle"
+          filter="url(#sketch)">D</text>
+  </g>
+  
+  <!-- AI 元素：神经网络节点 -->
+  <g filter="url(#aiGlow)" stroke="#6366f1" stroke-width="1.5" fill="none">
+    <!-- 节点连线 -->
+    <path d="M200,300 Q250,280 280,320" stroke-opacity="0.4"/>
+    <path d="M600,300 Q550,280 520,320" stroke-opacity="0.4"/>
+    <path d="M200,500 Q250,520 280,480" stroke-opacity="0.4"/>
+    <path d="M600,500 Q550,520 520,480" stroke-opacity="0.4"/>
+    
+    <!-- 左侧节点 -->
+    <circle cx="200" cy="300" r="8" fill="#6366f1" fill-opacity="0.6"/>
+    <circle cx="180" cy="350" r="5" fill="#8b5cf6" fill-opacity="0.5"/>
+    <circle cx="220" cy="380" r="6" fill="#06b6d4" fill-opacity="0.5"/>
+    
+    <!-- 右侧节点 -->
+    <circle cx="600" cy="300" r="8" fill="#8b5cf6" fill-opacity="0.6"/>
+    <circle cx="620" cy="360" r="5" fill="#06b6d4" fill-opacity="0.5"/>
+    <circle cx="580" cy="400" r="6" fill="#6366f1" fill-opacity="0.5"/>
+    
+    <!-- 底部节点 -->
+    <circle cx="200" cy="500" r="7" fill="#06b6d4" fill-opacity="0.6"/>
+    <circle cx="600" cy="500" r="7" fill="#6366f1" fill-opacity="0.6"/>
+  </g>
+  
+  <!-- 手绘装饰：星星 -->
+  <g fill="#8b5cf6" filter="url(#aiGlow)">
+    <path d="M150,200 L155,215 L170,215 L158,225 L163,240 L150,230 L137,240 L142,225 L130,215 L145,215 Z" fill-opacity="0.7"/>
+    <path d="M650,180 L653,190 L663,190 L655,197 L658,207 L650,200 L642,207 L645,197 L637,190 L647,190 Z" fill-opacity="0.5"/>
+    <path d="M100,450 L102,458 L110,458 L104,463 L106,471 L100,466 L94,471 L96,463 L90,458 L98,458 Z" fill-opacity="0.4"/>
+    <path d="M700,420 L703,432 L715,432 L706,440 L709,452 L700,444 L691,452 L694,440 L685,432 L697,432 Z" fill-opacity="0.6"/>
+  </g>
+  
+  <!-- 手绘装饰：线条/涂鸦 -->
+  <g stroke="#8b5cf6" stroke-width="1" fill="none" stroke-opacity="0.3">
+    <!-- 波浪线 -->
+    <path d="M50,600 Q100,580 150,600 T250,600 T350,600"/>
+    <path d="M450,600 Q500,580 550,600 T650,600 T750,600"/>
+    
+    <!-- 圆圈装饰 -->
+    <circle cx="100" cy="250" r="15"/>
+    <circle cx="700" cy="550" r="20"/>
+  </g>
+  
+  <!-- 手绘风格标签 -->
+  <g filter="url(#sketch)">
+    <rect x="300" y="520" width="200" height="50" rx="25" 
+          fill="url(#watercolor)" fill-opacity="0.15"/>
+    <rect x="300" y="520" width="200" height="50" rx="25" 
+          fill="none" stroke="url(#watercolor)" stroke-width="2"/>
+  </g>
+  
+  <!-- 姓名 -->
+  <text x="400" y="558" font-family="'Segoe Script', 'Brush Script MT', cursive" 
+        font-size="28" fill="#1e1b4b" text-anchor="middle" filter="url(#sketch)">dawnwenhui</text>
+  
+  <!-- 副标题 - 手写风格 -->
+  <text x="400" y="620" font-family="'Segoe Script', cursive" 
+        font-size="14" fill="#6366f1" text-anchor="middle" letter-spacing="3">✨ Frontend Artist + AI ✨</text>
+  
+  <!-- 手绘分隔线 -->
+  <path d="M200,680 Q300,675 400,680 T600,680" 
+        stroke="#8b5cf6" stroke-width="2" fill="none" stroke-opacity="0.4"/>
+  
+  <!-- 技术栈手绘标签 -->
+  <g font-family="'Segoe Script', cursive" font-size="12" fill="#64748b">
+    <text x="220" y="730">Vue</text>
+    <circle cx="280" cy="726" r="3" fill="#6366f1"/>
+    <text x="310" y="730">React</text>
+    <circle cx="370" cy="726" r="3" fill="#8b5cf6"/>
+    <text x="400" y="730">TS</text>
+    <circle cx="430" cy="726" r="3" fill="#06b6d4"/>
+    <text x="460" y="730">AI</text>
+    <circle cx="490" cy="726" r="3" fill="#ec4899"/>
+    <text x="520" y="730">WebGL</text>
+  </g>
+  
+  <!-- 角落手绘涂鸦 -->
+  <g stroke="#6366f1" stroke-width="1.5" fill="none" stroke-opacity="0.2">
+    <!-- 左上角 -->
+    <path d="M30,30 L60,30 L60,60"/>
+    <circle cx="30" cy="30" r="5"/>
+    
+    <!-- 右下角 -->
+    <path d="M770,770 L740,770 L740,740"/>
+    <circle cx="770" cy="770" r="5"/>
+  </g>
+</svg>

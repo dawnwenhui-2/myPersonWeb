@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="ag3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0e7ff">
+        <animate attributeName="stop-color" values="#e0e7ff;#fae8ff;#fce7f3;#e0e7ff" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#fce7f3">
+        <animate attributeName="stop-color" values="#fce7f3;#e0e7ff;#fae8ff;#fce7f3" dur="5s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <linearGradient id="ag3b" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8">
+        <animate attributeName="stop-color" values="#818cf8;#c084fc;#f472b6;#818cf8" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#c084fc">
+        <animate attributeName="stop-color" values="#c084fc;#f472b6;#818cf8;#c084fc" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#ag3)">
+    <animateTransform attributeName="transform" type="scale" values="1;1.01;1" dur="4s" repeatCount="indefinite" additive="sum"/>
+  </rect>
+  
+  <!-- 跳动的点点 -->
+  <circle cx="30" cy="35" r="8" fill="#f472b6" fill-opacity="0.5">
+    <animate attributeName="cy" values="35;30;35" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="175" cy="30" r="6" fill="#818cf8" fill-opacity="0.5">
+    <animate attributeName="cy" values="30;25;30" dur="0.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="25" cy="170" r="5" fill="#34d399" fill-opacity="0.5">
+    <animate attributeName="cy" values="170;165;170" dur="1.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="180" cy="165" r="7" fill="#fbbf24" fill-opacity="0.5">
+    <animate attributeName="cy" values="165;160;165" dur="0.9s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 大 D -->
+  <text x="100" y="135" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="105" font-weight="900" fill="url(#ag3b)" text-anchor="middle">D</text>
+  
+  <!-- 腮红跳动 -->
+  <ellipse cx="50" cy="110" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.7;0.5" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="rx" values="12;14;12" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="150" cy="110" rx="12" ry="8" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.7;0.5" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="rx" values="12;14;12" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 波浪线动 -->
+  <path d="M30,165 Q65,155 100,165 T170,165" fill="none" stroke="url(#ag3b)" stroke-width="3" stroke-opacity="0.3" stroke-linecap="round">
+    <animate attributeName="d" values="M30,165 Q65,155 100,165 T170,165;M30,165 Q65,175 100,165 T170,165;M30,165 Q65,155 100,165 T170,165" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 旋转星星 -->
+  <g transform-origin="45 175">
+    <path d="M45,175 L47,180 L52,180 L48,184 L50,189 L45,185 L40,189 L42,184 L38,180 L43,180 Z" fill="#fbbf24" fill-opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 45 182;360 45 182" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g transform-origin="155 175">
+    <path d="M155,175 L157,180 L162,180 L158,184 L160,189 L155,185 L150,189 L152,184 L148,180 L153,180 Z" fill="#c084fc" fill-opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" values="0 155 182;360 155 182" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

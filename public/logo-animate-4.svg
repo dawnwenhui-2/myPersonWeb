@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="ag4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fecdd3">
+        <animate attributeName="stop-color" values="#fecdd3;#ddd6fe;#c7d2fe;#a5f3fc;#fca5a5;#fecdd3" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="25%" stop-color="#ddd6fe">
+        <animate attributeName="stop-color" values="#ddd6fe;#c7d2fe;#a5f3fc;#fca5a5;#fecdd3;#ddd6fe" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#c7d2fe">
+        <animate attributeName="stop-color" values="#c7d2fe;#a5f3fc;#fca5a5;#fecdd3;#ddd6fe;#c7d2fe" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="75%" stop-color="#a5f3fc">
+        <animate attributeName="stop-color" values="#a5f3fc;#fca5a5;#fecdd3;#ddd6fe;#c7d2fe;#a5f3fc" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#fca5a5">
+        <animate attributeName="stop-color" values="#fca5a5;#fecdd3;#ddd6fe;#c7d2fe;#a5f3fc;#fca5a5" dur="6s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <linearGradient id="ag4b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed">
+        <animate attributeName="stop-color" values="#7c3aed;#2563eb;#ec4899;#7c3aed" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#2563eb">
+        <animate attributeName="stop-color" values="#2563eb;#ec4899;#7c3aed;#2563eb" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+  </defs>
+  
+  <!-- 胶囊背景 -->
+  <rect x="10" y="10" width="180" height="180" rx="50" fill="url(#ag4)">
+    <animateTransform attributeName="transform" type="rotate" values="0 100 100;360 100 100" dur="20s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- 内部圆 -->
+  <circle cx="100" cy="90" r="55" fill="#ffffff" fill-opacity="0.3">
+    <animate attributeName="r" values="55;58;55" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 大 D -->
+  <text x="100" y="125" font-family="'Quicksand', 'Nunito', sans-serif" 
+        font-size="100" font-weight="700" fill="url(#ag4b)" text-anchor="middle">D</text>
+  
+  <!-- 腮红脉动 -->
+  <circle cx="50" cy="100" r="10" fill="#fda4af" fill-opacity="0.4">
+    <animate attributeName="r" values="10;12;10" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="150" cy="100" r="10" fill="#fda4af" fill-opacity="0.4">
+    <animate attributeName="r" values="10;12;10" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 名字 -->
+  <text x="100" y="165" font-family="'Quicksand', 'Nunito', sans-serif" 
+        font-size="18" font-weight="600" fill="#7c3aed" text-anchor="middle">
+    dawnwenhui
+    <animate attributeName="fill" values="#7c3aed;#2563eb;#ec4899;#7c3aed" dur="4s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- 弹跳小圆 -->
+  <circle cx="35" cy="50" r="5" fill="#f472b6" fill-opacity="0.5">
+    <animate attributeName="cy" values="50;45;50" dur="0.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="165" cy="55" r="4" fill="#818cf8" fill-opacity="0.5">
+    <animate attributeName="cy" values="55;50;55" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="30" cy="150" r="4" fill="#34d399" fill-opacity="0.5">
+    <animate attributeName="cy" values="150;145;150" dur="1.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="170" cy="145" r="5" fill="#fbbf24" fill-opacity="0.5">
+    <animate attributeName="cy" values="145;140;145" dur="0.9s" repeatCount="indefinite"/>
+  </circle>
+</svg>

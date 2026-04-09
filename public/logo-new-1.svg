@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <!-- 主渐变 -->
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    
+    <!-- 内发光 -->
+    <radialGradient id="glow1" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    
+    <!-- 阴影 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#6366f1" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- 背景圆 -->
+  <circle cx="100" cy="100" r="95" fill="url(#grad1)" filter="url(#shadow)"/>
+  
+  <!-- 内光 -->
+  <circle cx="100" cy="100" r="95" fill="url(#glow1)"/>
+  
+  <!-- D 字母 -->
+  <text x="100" y="138" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="110" font-weight="700" fill="#ffffff" text-anchor="middle">D</text>
+  
+  <!-- 装饰线条 -->
+  <line x1="50" y1="165" x2="150" y2="165" stroke="#ffffff" stroke-width="3" stroke-opacity="0.6" stroke-linecap="round"/>
+</svg>

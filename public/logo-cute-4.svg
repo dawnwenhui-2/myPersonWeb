@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="rainbow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fecdd3"/>
+      <stop offset="25%" stop-color="#ddd6fe"/>
+      <stop offset="50%" stop-color="#c7d2fe"/>
+      <stop offset="75%" stop-color="#a5f3fc"/>
+      <stop offset="100%" stop-color="#fca5a5"/>
+    </linearGradient>
+    
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆角胶囊背景 -->
+  <rect x="10" y="10" width="180" height="180" rx="50" fill="url(#rainbow1)"/>
+  
+  <!-- 内部圆 -->
+  <circle cx="100" cy="90" r="55" fill="#ffffff" fill-opacity="0.3"/>
+  
+  <!-- 大 D -->
+  <text x="100" y="125" font-family="'Quicksand', 'Nunito', sans-serif" 
+        font-size="100" font-weight="700" fill="url(#textGrad)" text-anchor="middle">D</text>
+  
+  <!-- 腮红圆 -->
+  <circle cx="50" cy="100" r="10" fill="#fda4af" fill-opacity="0.4"/>
+  <circle cx="150" cy="100" r="10" fill="#fda4af" fill-opacity="0.4"/>
+  
+  <!-- 名字 -->
+  <text x="100" y="165" font-family="'Quicksand', 'Nunito', sans-serif" 
+        font-size="18" font-weight="600" fill="#7c3aed" text-anchor="middle">dawnwenhui</text>
+  
+  <!-- 装饰小圆 -->
+  <circle cx="35" cy="50" r="5" fill="#f472b6" fill-opacity="0.5"/>
+  <circle cx="165" cy="55" r="4" fill="#818cf8" fill-opacity="0.5"/>
+  <circle cx="30" cy="150" r="4" fill="#34d399" fill-opacity="0.5"/>
+  <circle cx="170" cy="145" r="5" fill="#fbbf24" fill-opacity="0.5"/>
+</svg>

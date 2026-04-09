@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="rb6a" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </radialGradient>
+    <linearGradient id="rb6b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 身体 -->
+  <ellipse cx="100" cy="115" rx="75" ry="70" fill="url(#rb6a)"/>
+  
+  <!-- 左兔耳 - 萝卜形状 -->
+  <ellipse cx="50" cy="25" rx="22" ry="55" fill="#ffffff" transform="rotate(-15 50 70)"/>
+  <ellipse cx="50" cy="25" rx="12" ry="40" fill="#fda4af" transform="rotate(-15 50 70)"/>
+  
+  <!-- 右兔耳 - 萝卜形状 -->
+  <ellipse cx="150" cy="25" rx="22" ry="55" fill="#ffffff" transform="rotate(15 150 70)"/>
+  <ellipse cx="150" cy="25" rx="12" ry="40" fill="#fda4af" transform="rotate(15 150 70)"/>
+  
+  <!-- 脸部 -->
+  <ellipse cx="100" cy="110" rx="58" ry="52" fill="#ffffff"/>
+  
+  <!-- 可爱豆豆眼 -->
+  <circle cx="70" cy="100" r="12" fill="#1e1b4b">
+    <animate attributeName="r" values="12;1;12" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="130" cy="100" r="12" fill="#1e1b4b">
+    <animate attributeName="r" values="12;1;12" dur="5s" repeatCount="indefinite" begin="0.15s"/>
+  </circle>
+  
+  <!-- 超亮高光 -->
+  <circle cx="74" cy="96" r="5" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="134" cy="96" r="5" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="5s" repeatCount="indefinite" begin="0.15s"/>
+  </circle>
+  
+  <!-- 爱心腮红 -->
+  <path d="M45,118 C45,112 55,112 55,118 C55,124 45,128 45,128 C45,128 35,124 35,118 C35,112 45,112 45,118" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.8;0.5" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+  <path d="M155,118 C155,112 165,112 165,118 C165,124 155,128 155,128 C155,128 145,124 145,118 C145,112 155,112 155,118" fill="#fda4af" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.8;0.5" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="115" rx="8" ry="7" fill="url(#rb6b)"/>
+  
+  <!-- 微笑嘴 -->
+  <path d="M85,128 Q100,142 115,128" fill="none" stroke="url(#rb6b)" stroke-width="3" stroke-linecap="round">
+    <animate attributeName="d" values="M85,128 Q100,142 115,128;M85,128 Q100,148 115,128;M85,128 Q100,142 115,128" dur="2.5s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 牙齿 -->
+  <rect x="93" y="138" width="6" height="8" rx="2" fill="#ffffff"/>
+  <rect x="101" y="138" width="6" height="8" rx="2" fill="#ffffff"/>
+  
+  <!-- 名字 -->
+  <text x="100" y="195" font-family="'Nunito', sans-serif" font-size="16" font-weight="700" fill="#d97706" text-anchor="middle">dawnwenhui</text>
+</svg>

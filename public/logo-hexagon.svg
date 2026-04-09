@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="mainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    
+    <radialGradient id="glowGrad2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </radialGradient>
+    
+    <filter id="neon2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 深色背景 -->
+  <rect width="800" height="800" fill="#0a0a14"/>
+  
+  <!-- 背景六边形矩阵 -->
+  <g fill="none" stroke="#6366f1" stroke-opacity="0.05">
+    <polygon points="400,100 465,150 465,250 400,300 335,250 335,150"/>
+    <polygon points="300,200 365,250 365,350 300,400 235,350 235,250"/>
+    <polygon points="500,200 565,250 565,350 500,400 435,350 435,250"/>
+    <polygon points="400,300 465,350 465,450 400,500 335,450 335,350"/>
+  </g>
+  
+  <!-- 发光圆形底座 -->
+  <circle cx="400" cy="380" r="150" fill="#6366f1" fill-opacity="0.1"/>
+  <circle cx="400" cy="380" r="130" fill="#8b5cf6" fill-opacity="0.15"/>
+  
+  <!-- 主六边形 -->
+  <g filter="url(#neon2)">
+    <polygon points="400,260 510,340 510,480 400,560 290,480 290,340" 
+             fill="none" stroke="url(#mainGrad2)" stroke-width="3"/>
+  </g>
+  
+  <!-- 六边形内部线条 -->
+  <line x1="400" y1="260" x2="400" y2="560" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.3"/>
+  <line x1="290" y1="340" x2="510" y2="480" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.3"/>
+  <line x1="510" y1="340" x2="290" y2="480" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.3"/>
+  
+  <!-- 中心 D -->
+  <text x="400" y="445" font-family="'SF Mono', 'Fira Code', monospace" 
+        font-size="140" font-weight="bold" fill="url(#mainGrad2)" text-anchor="middle">D</text>
+  
+  <!-- 装饰圆点 -->
+  <circle cx="400" cy="260" r="6" fill="#06b6d4" filter="url(#neon2)"/>
+  <circle cx="510" cy="340" r="6" fill="#8b5cf6" filter="url(#neon2)"/>
+  <circle cx="510" cy="480" r="6" fill="#ec4899" filter="url(#neon2)"/>
+  <circle cx="400" cy="560" r="6" fill="#06b6d4" filter="url(#neon2)"/>
+  <circle cx="290" cy="480" r="6" fill="#8b5cf6" filter="url(#neon2)"/>
+  <circle cx="290" cy="340" r="6" fill="#6366f1" filter="url(#neon2)"/>
+  
+  <!-- 姓名 -->
+  <text x="400" y="670" font-family="'SF Pro Display', sans-serif" 
+        font-size="44" font-weight="600" fill="#f8fafc" text-anchor="middle" letter-spacing="2">dawnwenhui</text>
+  
+  <!-- 副标题 -->
+  <text x="400" y="710" font-family="'SF Mono', monospace" 
+        font-size="13" fill="#06b6d4" text-anchor="middle" letter-spacing="8">FULL STACK</text>
+  
+  <!-- 底部代码 -->
+  <text x="400" y="770" font-family="'SF Mono', monospace" 
+        font-size="12" fill="#8b5cf6" fill-opacity="0.6" text-anchor="middle">console.log("Hello, World!");</text>
+</svg>

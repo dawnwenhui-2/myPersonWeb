@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <!-- 天空渐变 -->
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="50%" stop-color="#B0E0E6"/>
+      <stop offset="100%" stop-color="#E0F7FA"/>
+    </linearGradient>
+    
+    <!-- 海洋渐变 -->
+    <linearGradient id="sea" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4FC3F7"/>
+      <stop offset="50%" stop-color="#29B6F6"/>
+      <stop offset="100%" stop-color="#0288D1"/>
+    </linearGradient>
+    
+    <!-- 沙滩渐变 -->
+    <linearGradient id="sand" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </linearGradient>
+    
+    <!-- 太阳光晕 -->
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF9C4" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#FFEE58" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FDD835" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- 海洋波浪 -->
+    <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4FC3F7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#81D4FA" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4FC3F7" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 天空 -->
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  
+  <!-- 太阳 -->
+  <circle cx="200" cy="150" r="120" fill="url(#sunGlow)"/>
+  <circle cx="200" cy="150" r="60" fill="#FFEE58"/>
+  
+  <!-- 云朵1 -->
+  <g fill="#FFFFFF" fill-opacity="0.9">
+    <ellipse cx="400" cy="120" rx="80" ry="40"/>
+    <ellipse cx="450" cy="100" rx="60" ry="35"/>
+    <ellipse cx="350" cy="110" rx="50" ry="30"/>
+  </g>
+  
+  <!-- 云朵2 -->
+  <g fill="#FFFFFF" fill-opacity="0.8">
+    <ellipse cx="900" cy="180" rx="100" ry="50"/>
+    <ellipse cx="970" cy="160" rx="70" ry="40"/>
+    <ellipse cx="840" cy="170" rx="60" ry="35"/>
+  </g>
+  
+  <!-- 云朵3 -->
+  <g fill="#FFFFFF" fill-opacity="0.85">
+    <ellipse cx="1500" cy="100" rx="90" ry="45"/>
+    <ellipse cx="1570" cy="80" rx="65" ry="38"/>
+    <ellipse cx="1440" cy="90" rx="55" ry="32"/>
+  </g>
+  
+  <!-- 远处的海 -->
+  <rect x="0" y="450" width="1920" height="280" fill="url(#sea)"/>
+  
+  <!-- 海浪1 -->
+  <path d="M0,480 Q240,460 480,480 T960,480 T1440,480 T1920,480 L1920,500 L0,500 Z" fill="url(#wave1)">
+    <animate attributeName="d" 
+      values="M0,480 Q240,460 480,480 T960,480 T1440,480 T1920,480 L1920,500 L0,500 Z;
+              M0,490 Q240,510 480,490 T960,490 T1440,490 T1920,490 L1920,500 L0,500 Z;
+              M0,480 Q240,460 480,480 T960,480 T1440,480 T1920,480 L1920,500 L0,500 Z"
+      dur="4s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 海浪2 -->
+  <path d="M0,520 Q320,500 640,520 T1280,520 T1920,520 L1920,560 L0,560 Z" fill="#29B6F6" fill-opacity="0.7">
+    <animate attributeName="d" 
+      values="M0,520 Q320,500 640,520 T1280,520 T1920,520 L1920,560 L0,560 Z;
+              M0,530 Q320,550 640,530 T1280,530 T1920,530 L1920,560 L0,560 Z;
+              M0,520 Q320,500 640,520 T1280,520 T1920,520 L1920,560 L0,560 Z"
+      dur="3.5s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 沙滩 -->
+  <ellipse cx="960" cy="1100" rx="1400" ry="450" fill="url(#sand)"/>
+  
+  <!-- 沙滩纹理 -->
+  <g fill="#FFCC02" fill-opacity="0.3">
+    <circle cx="200" cy="900" r="3"/>
+    <circle cx="450" cy="850" r="2"/>
+    <circle cx="700" cy="920" r="2.5"/>
+    <circle cx="1200" cy="880" r="3"/>
+    <circle cx="1500" cy="910" r="2"/>
+    <circle cx="1750" cy="870" r="2.5"/>
+  </g>
+  
+  <!-- 贝壳 -->
+  <g fill="#FFECB3">
+    <ellipse cx="300" cy="950" rx="15" ry="8" transform="rotate(-20 300 950)"/>
+    <ellipse cx="800" cy="980" rx="12" ry="6" transform="rotate(15 800 980)"/>
+    <ellipse cx="1400" cy="960" rx="14" ry="7" transform="rotate(-10 1400 960)"/>
+    <ellipse cx="1700" cy="990" rx="11" ry="5" transform="rotate(25 1700 990)"/>
+  </g>
+  
+  <!-- 小螃蟹 -->
+  <g>
+    <ellipse cx="600" cy="970" rx="12" ry="8" fill="#FF7043"/>
+    <circle cx="592" cy="967" r="3" fill="#FFFFFF"/>
+    <circle cx="608" cy="967" r="3" fill="#FFFFFF"/>
+    <circle cx="592" cy="968" r="1.5" fill="#1A1A1A"/>
+    <circle cx="608" cy="968" r="1.5" fill="#1A1A1A"/>
+    <!-- 钳子 -->
+    <path d="M585,972 Q575,965 578,978" fill="none" stroke="#FF7043" stroke-width="3" stroke-linecap="round"/>
+    <path d="M615,972 Q625,965 622,978" fill="none" stroke="#FF7043" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 椰子树 -->
+  <g>
+    <!-- 树干 -->
+    <path d="M1600,750 Q1620,650 1600,550" fill="none" stroke="#8D6E63" stroke-width="20" stroke-linecap="round"/>
+    <!-- 叶子 -->
+    <path d="M1600,550 Q1550,500 1500,530" fill="none" stroke="#4CAF50" stroke-width="8" stroke-linecap="round"/>
+    <path d="M1600,550 Q1650,500 1700,530" fill="none" stroke="#4CAF50" stroke-width="8" stroke-linecap="round"/>
+    <path d="M1600,550 Q1600,480 1550,460" fill="none" stroke="#66BB6A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M1600,550 Q1600,480 1650,460" fill="none" stroke="#66BB6A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M1600,550 Q1580,490 1520,470" fill="none" stroke="#81C784" stroke-width="8" stroke-linecap="round"/>
+    <path d="M1600,550 Q1620,490 1680,470" fill="none" stroke="#81C784" stroke-width="8" stroke-linecap="round"/>
+    <!-- 椰子 -->
+    <circle cx="1590" cy="565" r="10" fill="#5D4037"/>
+    <circle cx="1610" cy="560" r="10" fill="#6D4C41"/>
+    <circle cx="1600" cy="570" r="9" fill="#4E342E"/>
+  </g>
+  
+  <!-- 沙滩伞 -->
+  <g>
+    <!-- 伞柄 -->
+    <rect x="350" y="800" width="8" height="200" fill="#BCAAA4"/>
+    <!-- 伞面 -->
+    <path d="M250,800 Q354,700 458,800" fill="#FF7043"/>
+    <path d="M250,800 Q354,720 458,800" fill="#FF5722"/>
+    <!-- 条纹 -->
+    <path d="M280,795 Q354,710 428,795" fill="#FFCCBC"/>
+    <path d="M310,790 Q354,720 398,790" fill="#FF8A65"/>
+  </g>
+  
+  <!-- 沙滩椅 -->
+  <g>
+    <rect x="500" y="880" width="100" height="8" rx="4" fill="#FF7043"/>
+    <rect x="505" y="850" width="90" height="35" rx="5" fill="#FFCCBC"/>
+    <rect x="495" y="888" width="8" height="40" fill="#8D6E63"/>
+    <rect x="597" y="888" width="8" height="40" fill="#8D6E63"/>
+  </g>
+  
+  <!-- 海鸥 -->
+  <g fill="#FFFFFF" stroke="#BDBDBD" stroke-width="1">
+    <path d="M700,300 Q720,280 740,300 Q720,290 700,300">
+      <animate attributeName="transform" type="translate" values="0,0;10,-5;0,0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M800,350 Q820,330 840,350 Q820,340 800,350">
+      <animate attributeName="transform" type="translate" values="0,0;-8,5;0,0" dur="2.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- 萌萌兔兔脚印 -->
+  <g fill="#FFCC80" fill-opacity="0.6">
+    <!-- 前爪印 -->
+    <ellipse cx="1100" cy="950" rx="8" ry="5"/>
+    <circle cx="1092" cy="943" r="3"/>
+    <circle cx="1096" cy="941" r="3"/>
+    <circle cx="1100" cy="941" r="3"/>
+    <circle cx="1104" cy="941" r="3"/>
+    <circle cx="1108" cy="943" r="3"/>
+    <!-- 后爪印 -->
+    <ellipse cx="1150" cy="960" rx="10" ry="12"/>
+  </g>
+  
+  <!-- 远处的帆船 -->
+  <g>
+    <rect x="1200" y="400" width="60" height="8" fill="#8D6E63"/>
+    <polygon points="1230,400 1230,320 1350,360" fill="#FFFFFF"/>
+    <polygon points="1230,360 1230,380 1350,360" fill="#FFCDD2"/>
+  </g>
+</svg>

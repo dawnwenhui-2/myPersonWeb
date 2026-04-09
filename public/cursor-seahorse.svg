@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 海马光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#4FC3F7" stroke="#29B6F6" stroke-width="1"/>
+  <!-- 小海马 -->
+  <g transform="translate(7, 3)">
+    <!-- 身体 -->
+    <path d="M6,18 Q2,15 3,10 Q4,5 8,4 Q12,3 12,8 Q12,12 10,14 Q12,16 10,18 Z" fill="#FFB74D"/>
+    <!-- 肚子 -->
+    <ellipse cx="8" cy="14" rx="3" ry="4" fill="#FFCC80"/>
+    <!-- 眼睛 -->
+    <circle cx="9" cy="7" r="2" fill="#FFFFFF"/>
+    <circle cx="9.5" cy="7" r="1" fill="#1A1A1A"/>
+    <!-- 鼻子 -->
+    <circle cx="11" cy="9" r="1" fill="#FFB74D"/>
+    <!-- 背鳍 -->
+    <path d="M5,8 Q3,5 5,3 Q7,5 6,8" fill="#FF9800"/>
+    <path d="M6,12 Q4,10 6,8 Q8,10 7,12" fill="#FF9800"/>
+    <!-- 尾巴卷 -->
+    <path d="M3,18 Q0,20 2,22 Q4,20 3,18" fill="#FFB74D"/>
+  </g>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="ag5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d1fae5"/>
+      <stop offset="100%" stop-color="#a7f3d0"/>
+    </linearGradient>
+    <linearGradient id="ag5b" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ddd6fe"/>
+      <stop offset="100%" stop-color="#c4b5fd"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 主背景圆 -->
+  <circle cx="100" cy="100" r="90" fill="url(#ag5)">
+    <animateTransform attributeName="transform" type="scale" values="1;1.03;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 兔子耳朵抖动 -->
+  <ellipse cx="60" cy="35" rx="15" ry="35" fill="url(#ag5b)" transform="rotate(-15 60 35)">
+    <animateTransform attributeName="transform" type="rotate" values="-15 60 35;-10 60 35;-15 60 35" dur="0.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="140" cy="35" rx="15" ry="35" fill="url(#ag5b)" transform="rotate(15 140 35)">
+    <animateTransform attributeName="transform" type="rotate" values="15 140 35;20 140 35;15 140 35" dur="0.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 耳朵内部 -->
+  <ellipse cx="60" cy="35" rx="8" ry="22" fill="#fda4af" transform="rotate(-15 60 35)">
+    <animateTransform attributeName="transform" type="rotate" values="-15 60 35;-10 60 35;-15 60 35" dur="0.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="140" cy="35" rx="8" ry="22" fill="#fda4af" transform="rotate(15 140 35)">
+    <animateTransform attributeName="transform" type="rotate" values="15 140 35;20 140 35;15 140 35" dur="0.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 脸部 -->
+  <circle cx="100" cy="105" r="50" fill="#ffffff">
+    <animate attributeName="r" values="50;52;50" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 左眼眨眼 -->
+  <circle cx="78" cy="95" r="8" fill="#1e1b4b">
+    <animate attributeName="ry" values="8;1;8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 右眼眨眼 -->
+  <circle cx="122" cy="95" r="8" fill="#1e1b4b">
+    <animate attributeName="ry" values="8;1;8" dur="3s" repeatCount="indefinite" begin="0.05s"/>
+  </circle>
+  
+  <!-- 左眼高光 -->
+  <circle cx="81" cy="92" r="3" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- 右眼高光 -->
+  <circle cx="125" cy="92" r="3" fill="#ffffff">
+    <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="0.05s"/>
+  </circle>
+  
+  <!-- 腮红 -->
+  <ellipse cx="65" cy="108" rx="10" ry="7" fill="#fda4af" fill-opacity="0.6">
+    <animate attributeName="fill-opacity" values="0.6;0.8;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="135" cy="108" rx="10" ry="7" fill="#fda4af" fill-opacity="0.6">
+    <animate attributeName="fill-opacity" values="0.6;0.8;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="108" rx="5" ry="4" fill="#f9a8d4"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M92,115 Q100,122 108,115" fill="none" stroke="#f9a8d4" stroke-width="2" stroke-linecap="round">
+    <animate attributeName="d" values="M92,115 Q100,122 108,115;M92,115 Q100,125 108,115;M92,115 Q100,122 108,115" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 名字 -->
+  <text x="100" y="168" font-family="'Nunito', 'Comic Sans MS', cursive" 
+        font-size="14" font-weight="700" fill="#7c3aed" text-anchor="middle" letter-spacing="1">dawnwenhui</text>
+</svg>

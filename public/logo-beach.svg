@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bl1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#4FC3F7"/>
+    </linearGradient>
+    <linearGradient id="bl2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFEE58"/>
+      <stop offset="100%" stop-color="#FFD54F"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 圆形背景 - 海洋蓝 -->
+  <circle cx="100" cy="100" r="95" fill="url(#bl1)"/>
+  
+  <!-- 沙滩底部 -->
+  <ellipse cx="100" cy="180" rx="90" ry="40" fill="url(#bl2)"/>
+  
+  <!-- 浪花 -->
+  <path d="M20,130 Q50,110 80,130 T140,130 T200,130" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-opacity="0.8">
+    <animate attributeName="d" 
+      values="M20,130 Q50,110 80,130 T140,130 T200,130;
+              M20,135 Q50,155 80,135 T140,135 T200,135;
+              M20,130 Q50,110 80,130 T140,130 T200,130"
+      dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 太阳 -->
+  <circle cx="150" cy="45" r="30" fill="#FFEE58"/>
+  
+  <!-- 云朵 -->
+  <g fill="#FFFFFF" fill-opacity="0.9">
+    <ellipse cx="60" cy="40" rx="25" ry="12"/>
+    <ellipse cx="75" cy="35" rx="18" ry="10"/>
+    <ellipse cx="45" cy="38" rx="15" ry="8"/>
+  </g>
+  
+  <!-- 萌萌兔兔 -->
+  <!-- 身体 -->
+  <ellipse cx="100" cy="145" rx="40" ry="35" fill="#FFE4E1"/>
+  
+  <!-- 耳朵 -->
+  <ellipse cx="70" cy="90" rx="12" ry="30" fill="#FFE4E1"/>
+  <ellipse cx="70" cy="90" rx="6" ry="20" fill="#FFB6C1"/>
+  <ellipse cx="130" cy="90" rx="12" ry="30" fill="#FFE4E1"/>
+  <ellipse cx="130" cy="90" rx="6" ry="20" fill="#FFB6C1"/>
+  
+  <!-- 脸 -->
+  <circle cx="100" cy="130" r="32" fill="#FFFFFF"/>
+  
+  <!-- 眼睛 - 闭着很享受 -->
+  <path d="M82,125 Q88,120 94,125" fill="none" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round">
+    <animate attributeName="d" values="M82,125 Q88,120 94,125;M82,125 Q88,122 94,125;M82,125 Q88,120 94,125" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M106,125 Q112,120 118,125" fill="none" stroke="#1e1b4b" stroke-width="2.5" stroke-linecap="round">
+    <animate attributeName="d" values="M106,125 Q112,120 118,125;M106,125 Q112,122 118,125;M106,125 Q112,120 118,125" dur="3s" repeatCount="indefinite" begin="0.1s"/>
+  </path>
+  
+  <!-- 腮红 -->
+  <ellipse cx="72" cy="135" rx="10" ry="6" fill="#FFB6C1" fill-opacity="0.6">
+    <animate attributeName="fill-opacity" values="0.6;0.9;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="128" cy="135" rx="10" ry="6" fill="#FFB6C1" fill-opacity="0.6">
+    <animate attributeName="fill-opacity" values="0.6;0.9;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="132" rx="5" ry="4" fill="#FF69B4"/>
+  
+  <!-- 嘴巴 - 开心笑 -->
+  <path d="M92,140 Q100,150 108,140" fill="none" stroke="#FF69B4" stroke-width="2" stroke-linecap="round">
+    <animate attributeName="d" values="M92,140 Q100,150 108,140;M92,140 Q100,153 108,140;M92,140 Q100,150 108,140" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- 沙滩装备 -->
+  <!-- 帽子 -->
+  <ellipse cx="100" cy="105" rx="35" ry="8" fill="#FF7043"/>
+  <ellipse cx="100" cy="100" rx="25" ry="15" fill="#FF5722"/>
+  
+  <!-- 小爪子举起 -->
+  <ellipse cx="65" cy="125" rx="10" ry="8" fill="#FFE4E1" transform="rotate(-30 65 125)"/>
+  <ellipse cx="135" cy="125" rx="10" ry="8" fill="#FFE4E1" transform="rotate(30 135 125)"/>
+  
+  <!-- 名字 -->
+  <text x="100" y="185" font-family="'Nunito', sans-serif" font-size="14" font-weight="700" fill="#FF5722" text-anchor="middle">dawnwenhui</text>
+</svg>

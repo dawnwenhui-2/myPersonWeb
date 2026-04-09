@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 墨镜光标 -->
+  <polygon points="0,0 0,24 6,18 10,28 13,27 9,17 16,17" fill="#1A1A1A" stroke="#424242" stroke-width="1"/>
+  <!-- 墨镜 -->
+  <g transform="translate(4, 5)">
+    <!-- 镜框 -->
+    <rect x="2" y="6" width="10" height="7" rx="2" fill="#1A1A1A" stroke="#333" stroke-width="0.5"/>
+    <rect x="14" y="6" width="10" height="7" rx="2" fill="#1A1A1A" stroke="#333" stroke-width="0.5"/>
+    <!-- 镜片反光 -->
+    <rect x="4" y="8" width="6" height="2" rx="1" fill="#4FC3F7" fill-opacity="0.3"/>
+    <rect x="16" y="8" width="6" height="2" rx="1" fill="#4FC3F7" fill-opacity="0.3"/>
+    <!-- 镜腿 -->
+    <line x1="0" y1="9" x2="2" y2="9" stroke="#1A1A1A" stroke-width="1.5"/>
+    <line x1="24" y1="9" x2="26" y2="9" stroke="#1A1A1A" stroke-width="1.5"/>
+  </g>
+</svg>
