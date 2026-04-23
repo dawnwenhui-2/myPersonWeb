@@ -41,7 +41,7 @@ export default function HanddrawnLines() {
         this.opacity = 0.1 + Math.random() * 0.15
 
         // 生成手绘风格的点
-        const numPoints = Math.floor(canvas.width / 20)
+        const numPoints = Math.floor((canvas?.width || 800) / 20)
         for (let i = 0; i <= numPoints; i++) {
           this.points.push({
             x: i * 20,

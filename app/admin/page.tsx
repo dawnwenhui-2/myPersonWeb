@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutDashboard, FileText, Code2, FolderKanban, Mail, Settings, Plus, Edit3, Trash2, Save, X, Menu, Home, Terminal, Sparkles, Monitor, LogOut, Shield } from 'lucide-react'
-import OceanEffects from '@/components/OceanEffects'
+import { LayoutDashboard, FileText, Code2, FolderKanban, Mail, Settings, Plus, Edit3, Trash2, Save, X, Menu, Home, Terminal, Sparkles, Monitor, LogOut, Shield, Layout } from 'lucide-react'
+import dynamic from 'next/dynamic'
+const OceanEffects = dynamic(() => import('@/components/OceanEffects'), { ssr: false })
 import { useRouter } from 'next/navigation'
 
 interface Skill { id: string; category: string; items: string[]; color: string; icon: string }
@@ -50,6 +51,7 @@ function Sidebar({ activeTab, setActiveTab, isOpen, setIsOpen, onLogout }: { act
     { id: 'projects', icon: <FolderKanban size={20} />, label: 'Projects' },
     { id: 'tips', icon: <Terminal size={20} />, label: 'Tips' },
     { id: 'contact', icon: <Mail size={20} />, label: 'Contact' },
+    { id: 'page-builder', icon: <Layout size={20} />, label: 'Page Builder' },
     { id: 'settings', icon: <Settings size={20} />, label: 'Settings' },
   ]
 
@@ -389,6 +391,223 @@ function ContactPanel({ contact, setContact }: { contact: Contact; setContact: (
   )
 }
 
+// Page Builder Panel - 低代码页面定制
+function PageBuilderPanel({ data, saveData }: { data: any; saveData: (d: any) => void }) {
+  const [activeTab, setActiveTab] = useState<'theme' | 'layout' | 'components'>('theme')
+  const [theme, setTheme] = useState({
+    primaryColor: '#0ea5e9',
+    secondaryColor: '#38bdf8',
+    backgroundColor: '#0a1929',
+    textColor: '#ffffff',
+    accentColor: '#7dd3fc',
+  })
+  const [layout, setLayout] = useState({
+    heroTitle: '你好，我是文辉',
+    heroSubtitle: '10年前端开发 · AI大模型应用 · 全栈工程师',
+    showSkills: true,
+    showProjects: true,
+    showBlog: true,
+    showContact: true,
+    columns: 3,
+  })
+
+  // 加载已有配置
+  useEffect(() => {
+    const saved = localStorage.getItem('lowcode_config')
+    if (saved) {
+      try {
+        const config = JSON.parse(saved)
+        if (config.theme) setTheme(config.theme)
+        if (config.layout) setLayout(config.layout)
+      } catch {}
+    }
+  }, [])
+
+  const handleSave = () => {
+    const config = {
+      theme,
+      layout,
+      pages: data,
+      version: '1.0'
+    }
+    localStorage.setItem('lowcode_config', JSON.stringify(config))
+    saveData(config)
+    alert('页面配置已保存！')
+  }
+
+  const themePresets = [
+    { name: '深海蓝', primary: '#0ea5e9', secondary: '#38bdf8', bg: '#0a1929', accent: '#7dd3fc' },
+    { name: '暗夜紫', primary: '#8b5cf6', secondary: '#a78bfa', bg: '#1a1a2e', accent: '#c4b5fd' },
+    { name: '森林绿', primary: '#22c55e', secondary: '#4ade80', bg: '#0f291e', accent: '#86efac' },
+    { name: '极简白', primary: '#3b82f6', secondary: '#60a5fa', bg: '#ffffff', accent: '#93c5fd' },
+    { name: '日落橙', primary: '#f97316', secondary: '#fb923c', bg: '#2a1810', accent: '#fdba74' },
+  ]
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">页面定制</h2>
+        <button onClick={handleSave} className="px-6 py-2 rounded-xl bg-sky-500 text-white font-medium flex items-center gap-2 hover:bg-sky-600">
+          <Save size={18} /> 保存配置
+        </button>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="flex gap-2 bg-slate-800/50 p-1 rounded-xl">
+        {[
+          { id: 'theme', icon: '🎨', label: '主题' },
+          { id: 'layout', icon: '📐', label: '布局' },
+          { id: 'components', icon: '🧩', label: '组件' },
+        ].map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)}
+            className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id ? 'bg-sky-500/20 text-sky-400' : 'text-gray-400 hover:text-white'}`}>
+            {tab.icon} {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Theme Tab */}
+      {activeTab === 'theme' && (
+        <div className="space-y-6">
+          {/* Theme Presets */}
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">主题预设</h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {themePresets.map(preset => (
+                <button key={preset.name} onClick={() => setTheme({ ...theme, primaryColor: preset.primary, secondaryColor: preset.secondary, backgroundColor: preset.bg, accentColor: preset.accent })}
+                  className="p-4 rounded-xl border-2 border-slate-700 hover:border-sky-500 transition-all">
+                  <div className="flex gap-1 mb-3">
+                    <div className="w-6 h-6 rounded" style={{ background: preset.primary }} />
+                    <div className="w-6 h-6 rounded" style={{ background: preset.secondary }} />
+                    <div className="w-6 h-6 rounded" style={{ background: preset.accent }} />
+                  </div>
+                  <span className="text-sm text-white">{preset.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Custom Colors */}
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">自定义颜色</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { key: 'primaryColor', label: '主色', value: theme.primaryColor },
+                { key: 'secondaryColor', label: '次色', value: theme.secondaryColor },
+                { key: 'backgroundColor', label: '背景色', value: theme.backgroundColor },
+                { key: 'textColor', label: '文字色', value: theme.textColor },
+                { key: 'accentColor', label: '强调色', value: theme.accentColor },
+              ].map(color => (
+                <div key={color.key} className="flex items-center justify-between">
+                  <span className="text-white">{color.label}</span>
+                  <div className="flex items-center gap-3">
+                    <input type="color" value={color.value} onChange={e => setTheme({ ...theme, [color.key]: e.target.value })} className="w-12 h-12 rounded-lg cursor-pointer" />
+                    <input type="text" value={color.value} onChange={e => setTheme({ ...theme, [color.key]: e.target.value })} className="w-28 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-white text-sm font-mono" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Preview */}
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">主题预览</h3>
+            <div className="p-6 rounded-xl" style={{ background: theme.backgroundColor }}>
+              <div className="text-center mb-4">
+                <h1 className="text-2xl font-bold mb-2" style={{ color: theme.textColor }}>{layout.heroTitle}</h1>
+                <p style={{ color: theme.secondaryColor }}>{layout.heroSubtitle}</p>
+              </div>
+              <div className="flex justify-center gap-2">
+                <button className="px-4 py-2 rounded-lg text-white" style={{ background: theme.primaryColor }}>主按钮</button>
+                <button className="px-4 py-2 rounded-lg border-2" style={{ borderColor: theme.primaryColor, color: theme.primaryColor }}>次按钮</button>
+              </div>
+              <div className="mt-4 flex justify-center gap-2">
+                <span className="px-3 py-1 rounded-full text-sm" style={{ background: `${theme.primaryColor}20`, color: theme.primaryColor }}>标签1</span>
+                <span className="px-3 py-1 rounded-full text-sm" style={{ background: `${theme.secondaryColor}20`, color: theme.secondaryColor }}>标签2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Layout Tab */}
+      {activeTab === 'layout' && (
+        <div className="space-y-6">
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">Hero 区域</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">主标题</label>
+                <input type="text" value={layout.heroTitle} onChange={e => setLayout({ ...layout, heroTitle: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white" />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">副标题</label>
+                <input type="text" value={layout.heroSubtitle} onChange={e => setLayout({ ...layout, heroSubtitle: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">网格布局</h3>
+            <div className="grid grid-cols-3 gap-4">
+              {[2, 3, 4].map(col => (
+                <button key={col} onClick={() => setLayout({ ...layout, columns: col })}
+                  className={`p-4 rounded-xl border-2 transition-all ${layout.columns === col ? 'border-sky-500 bg-sky-500/10' : 'border-slate-700'}`}>
+                  <div className="grid gap-2 mb-2" style={{ gridTemplateColumns: `repeat(${col}, 1fr)` }}>
+                    {[...Array(col)].map((_, i) => <div key={i} className="h-12 rounded bg-slate-600" />)}
+                  </div>
+                  <span className="text-sm text-white">{col} 列布局</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Components Tab */}
+      {activeTab === 'components' && (
+        <div className="space-y-6">
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">显示/隐藏组件</h3>
+            <div className="space-y-3">
+              {[
+                { key: 'showSkills', label: '技能展示', icon: '💻' },
+                { key: 'showProjects', label: '项目展示', icon: '🚀' },
+                { key: 'showBlog', label: '博客列表', icon: '📝' },
+                { key: 'showContact', label: '联系方式', icon: '📧' },
+              ].map(item => (
+                <div key={item.key} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/50">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{item.icon}</span>
+                    <span className="text-white">{item.label}</span>
+                  </div>
+                  <button onClick={() => setLayout({ ...layout, [item.key]: !layout[item.key as keyof typeof layout] })}
+                    className={`w-12 h-6 rounded-full transition-colors relative ${layout[item.key as keyof typeof layout] ? 'bg-sky-500' : 'bg-slate-600'}`}>
+                    <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${layout[item.key as keyof typeof layout] ? 'translate-x-7' : 'translate-x-1'}`} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
+            <h3 className="text-lg font-bold text-white mb-4">重置配置</h3>
+            <p className="text-gray-400 text-sm mb-4">将所有页面配置恢复为默认值</p>
+            <button onClick={() => {
+              localStorage.removeItem('lowcode_config')
+              alert('配置已重置！')
+            }} className="px-4 py-2 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30">
+              重置为默认
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function SettingsPanel({ settings, setSettings }: { settings: SiteSettings; setSettings: (v: SiteSettings) => void }) {
   return (
     <div className="space-y-6">
@@ -460,6 +679,7 @@ export default function AdminPage() {
           {activeTab === 'projects' && <motion.div key="projects" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><ProjectsPanel projects={data.projects} setProjects={(v) => saveData({ ...data, projects: v })} /></motion.div>}
           {activeTab === 'tips' && <motion.div key="tips" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><TipsPanel tips={data.tips} setTips={(v) => saveData({ ...data, tips: v })} /></motion.div>}
           {activeTab === 'contact' && <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><ContactPanel contact={data.contact} setContact={(v) => saveData({ ...data, contact: v })} /></motion.div>}
+          {activeTab === 'page-builder' && <motion.div key="page-builder" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><PageBuilderPanel data={data} saveData={saveData} /></motion.div>}
           {activeTab === 'settings' && <motion.div key="settings" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><SettingsPanel settings={data.settings} setSettings={(v) => saveData({ ...data, settings: v })} /></motion.div>}
         </AnimatePresence>
       </main>

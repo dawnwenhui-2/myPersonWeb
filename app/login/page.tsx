@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, Lock, User } from 'lucide-react'
-import OceanEffects from '@/components/OceanEffects'
+import dynamic from 'next/dynamic'
+const OceanEffects = dynamic(() => import('@/components/OceanEffects'), { ssr: false })
 import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {

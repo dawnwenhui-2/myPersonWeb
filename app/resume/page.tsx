@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, Github, Linkedin, MapPin, Download, Sparkles, Code, Zap, Palette } from 'lucide-react'
-import OceanEffects from '@/components/OceanEffects'
+import dynamic from 'next/dynamic'
+const OceanEffects = dynamic(() => import('@/components/OceanEffects'), { ssr: false })
 
 // 简历数据
 const resumeData = {

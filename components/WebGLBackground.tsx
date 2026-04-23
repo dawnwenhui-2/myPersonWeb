@@ -8,15 +8,17 @@ export default function WebGLBackground() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+    const canvasEl = canvas // 非 null 引用
 
     const gl = canvas.getContext('webgl')
     if (!gl) return
+    const glCtx = gl // 非 null 的引用，供后续函数使用
 
     // 设置画布
     const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      gl.viewport(0, 0, canvas.width, canvas.height)
+      canvasEl.width = window.innerWidth
+      canvasEl.height = window.innerHeight
+      glCtx.viewport(0, 0, canvasEl.width, canvasEl.height)
     }
     resize()
     window.addEventListener('resize', resize)
@@ -148,29 +150,29 @@ export default function WebGLBackground() {
       return program
     }
 
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
+    const vertexShader = createShader(glCtx, glCtx.VERTEX_SHADER, vertexShaderSource)
+    const fragmentShader = createShader(glCtx, glCtx.FRAGMENT_SHADER, fragmentShaderSource)
     
     if (!vertexShader || !fragmentShader) return
 
-    const program = createProgram(gl, vertexShader, fragmentShader)
+    const program = createProgram(glCtx, vertexShader, fragmentShader)
     if (!program) return
 
     // 设置顶点
-    const positionBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    const positionBuffer = glCtx.createBuffer()
+    glCtx.bindBuffer(glCtx.ARRAY_BUFFER, positionBuffer)
+    glCtx.bufferData(glCtx.ARRAY_BUFFER, new Float32Array([
       -1, -1,
        1, -1,
       -1,  1,
       -1,  1,
        1, -1,
        1,  1,
-    ]), gl.STATIC_DRAW)
+    ]), glCtx.STATIC_DRAW)
 
-    const positionLocation = gl.getAttribLocation(program, 'a_position')
-    const timeLocation = gl.getUniformLocation(program, 'u_time')
-    const resolutionLocation = gl.getUniformLocation(program, 'u_resolution')
+    const positionLocation = glCtx.getAttribLocation(program, 'a_position')
+    const timeLocation = glCtx.getUniformLocation(program, 'u_time')
+    const resolutionLocation = glCtx.getUniformLocation(program, 'u_resolution')
 
     // 动画循环
     const startTime = Date.now()
@@ -178,19 +180,19 @@ export default function WebGLBackground() {
     function render() {
       const time = (Date.now() - startTime) / 1000
       
-      gl.clearColor(0, 0, 0, 0)
-      gl.clear(gl.COLOR_BUFFER_BIT)
+      glCtx.clearColor(0, 0, 0, 0)
+      glCtx.clear(glCtx.COLOR_BUFFER_BIT)
       
-      gl.useProgram(program)
+      glCtx.useProgram(program)
       
-      gl.enableVertexAttribArray(positionLocation)
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0)
+      glCtx.enableVertexAttribArray(positionLocation)
+      glCtx.bindBuffer(glCtx.ARRAY_BUFFER, positionBuffer)
+      glCtx.vertexAttribPointer(positionLocation, 2, glCtx.FLOAT, false, 0, 0)
       
-      gl.uniform1f(timeLocation, time)
-      gl.uniform2f(resolutionLocation, canvas.width, canvas.height)
+      glCtx.uniform1f(timeLocation, time)
+      glCtx.uniform2f(resolutionLocation, canvasEl.width, canvasEl.height)
       
-      gl.drawArrays(gl.TRIANGLES, 0, 6)
+      glCtx.drawArrays(glCtx.TRIANGLES, 0, 6)
       
       requestAnimationFrame(render)
     }
@@ -199,10 +201,10 @@ export default function WebGLBackground() {
 
     return () => {
       window.removeEventListener('resize', resize)
-      gl.deleteProgram(program)
-      gl.deleteShader(vertexShader)
-      gl.deleteShader(fragmentShader)
-      gl.deleteBuffer(positionBuffer)
+      glCtx.deleteProgram(program!)
+      glCtx.deleteShader(vertexShader!)
+      glCtx.deleteShader(fragmentShader!)
+      glCtx.deleteBuffer(positionBuffer!)
     }
   }, [])
 

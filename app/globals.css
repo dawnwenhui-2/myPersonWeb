@@ -1,4 +1,29 @@
-@tailwind base;
+/* ===== 流动边框动画 ===== */
+@keyframes inputFlow {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+
+@keyframes headerFlow {
+  0% { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes headerSweep {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+@keyframes flowGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -321,3 +346,147 @@ body {
 .animate-wave {
   animation: wave 10s linear infinite;
 }
+
+/* ===== AI Chat Markdown + Code Highlight ===== */
+.ai-markdown h1,
+.ai-markdown h2,
+.ai-markdown h3 {
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #e2e8f0;
+}
+.ai-markdown h1 { font-size: 1.25rem; }
+.ai-markdown h2 { font-size: 1.125rem; }
+.ai-markdown h3 { font-size: 1rem; }
+
+.ai-markdown p {
+  margin-bottom: 0.5em;
+  line-height: 1.7;
+}
+
+.ai-markdown ul,
+.ai-markdown ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+.ai-markdown li {
+  margin-bottom: 0.25em;
+}
+.ai-markdown ul li { list-style-type: disc; }
+.ai-markdown ol li { list-style-type: decimal; }
+
+.ai-markdown strong {
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.ai-markdown a {
+  color: #38bdf8;
+  text-decoration: underline;
+}
+
+.ai-markdown blockquote {
+  border-left: 3px solid #0ea5e9;
+  padding-left: 1em;
+  margin: 0.5em 0;
+  color: #94a3b8;
+}
+
+/* 代码块容器 */
+.ai-markdown pre {
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 0.75em 0;
+  overflow-x: auto;
+  position: relative;
+}
+.ai-markdown pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+/* 行内代码 */
+.ai-markdown code {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+/* 表格 */
+.ai-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  font-size: 0.875rem;
+}
+.ai-markdown th {
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+.ai-markdown td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  color: #cbd5e1;
+}
+
+/* 代码块语言标签 + 复制按钮 */
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  font-size: 0.75rem;
+  color: #64748b;
+  border-radius: 0.75rem 0.75rem 0 0;
+  margin: 0.75em 0 -0.75em 0;
+}
+.code-block-header + pre {
+  border-radius: 0 0 0.75rem 0.75rem;
+  margin-top: 0;
+}
+.code-copy-btn {
+  background: transparent;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #94a3b8;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: all 0.2s;
+}
+.code-copy-btn:hover {
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+/* 代码高亮 (highlight.js github-dark theme) */
+.hljs { color: #e2e8f0; }
+.hljs-comment, .hljs-quote { color: #8b949e; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag { color: #ff7b72; }
+.hljs-string, .hljs-addition { color: #a5d6ff; }
+.hljs-number, .hljs-literal { color: #79c0ff; }
+.hljs-built_in, .hljs-type { color: #ffa657; }
+.hljs-function .hljs-title, .hljs-title.function_ { color: #d2a8ff; }
+.hljs-variable, .hljs-attr { color: #79c0ff; }
+.hljs-selector-class { color: #7ee787; }
+.hljs-tag { color: #7ee787; }
+.hljs-name { color: #7ee787; }
+.hljs-attribute { color: #79c0ff; }
+.hljs-regexp { color: #a5d6ff; }
+.hljs-link { color: #a5d6ff; text-decoration: underline; }
+.hljs-meta { color: #79c0ff; }
+.hljs-deletion { color: #ffa198; background-color: rgba(248, 81, 73, 0.1); }

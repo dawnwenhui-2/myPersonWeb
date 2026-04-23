@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import FloatingAIButton from '@/components/FloatingAIButton'
+import { LowCodeProvider } from '@/lib/lowcode-context'
 
 export const metadata: Metadata = {
   title: 'dawnwenhui - AI前端架构师',
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="dark">
       <body className="antialiased">
-        {children}
+        <LowCodeProvider>
+          {children}
+        </LowCodeProvider>
         <FloatingAIButton />
       </body>
     </html>

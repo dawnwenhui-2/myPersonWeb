@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Eye, Tag, ArrowLeft, ChevronRight, Search } from 'lucide-react'
-import OceanEffects from '@/components/OceanEffects'
+import dynamic from 'next/dynamic'
+const OceanEffects = dynamic(() => import('@/components/OceanEffects'), { ssr: false })
 
 interface BlogPost {
   id: string
@@ -53,7 +54,7 @@ export default function BlogPage() {
   })
 
   // 获取所有标签
-  const allTags = [...new Set(posts.flatMap(p => p.tags))]
+  const allTags = Array.from(new Set(posts.flatMap(p => p.tags)))
 
   // 阅读文章
   const handleRead = (post: BlogPost) => {

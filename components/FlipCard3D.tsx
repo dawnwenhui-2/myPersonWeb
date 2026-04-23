@@ -6,13 +6,15 @@ import { Code2, Eye, Sparkles } from 'lucide-react'
 
 interface FlipCard3DProps {
   title: string
-  description: string
+  description?: string
   code?: string
-  tags: string[]
+  tags?: string[]
   emoji?: string
+  frontColor?: string
+  backContent?: string
 }
 
-export default function FlipCard3D({ title, description, code, tags, emoji = '💻' }: FlipCard3DProps) {
+export default function FlipCard3D({ title, description = '', code, tags = [], emoji = '🧠', frontColor, backContent }: FlipCard3DProps) {
   const [isFlipped, setIsFlipped] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -35,8 +37,8 @@ export default function FlipCard3D({ title, description, code, tags, emoji = '�
           style={{ 
             backfaceVisibility: 'hidden',
             background: 'rgba(15, 41, 65, 0.8)',
-            border: '1px solid rgba(56, 189, 248, 0.2)',
-            boxShadow: isHovered ? '0 8px 30px rgba(56, 189, 248, 0.3)' : '0 4px 20px rgba(0,0,0,0.3)'
+            border: `1px solid ${frontColor ? frontColor + '66' : 'rgba(56, 189, 248, 0.2)'}`,
+            boxShadow: isHovered ? `0 8px 30px ${frontColor ? frontColor + '4D' : 'rgba(56, 189, 248, 0.3)'}` : '0 4px 20px rgba(0,0,0,0.3)'
           }}
         >
           <div className="flex items-start justify-between mb-4">
@@ -44,9 +46,9 @@ export default function FlipCard3D({ title, description, code, tags, emoji = '�
             <motion.div
               animate={{ scale: isHovered ? 1.1 : 1 }}
               className="p-2 rounded-lg"
-              style={{ background: 'rgba(56, 189, 248, 0.2)' }}
+              style={{ background: frontColor ? frontColor + '33' : 'rgba(56, 189, 248, 0.2)' }}
             >
-              <Code2 className="w-6 h-6" style={{ color: '#38bdf8' }} />
+              <Code2 className="w-6 h-6" style={{ color: frontColor || '#38bdf8' }} />
             </motion.div>
           </div>
           
@@ -101,19 +103,24 @@ export default function FlipCard3D({ title, description, code, tags, emoji = '�
           
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4" style={{ color: '#38bdf8' }} />
-            <span className="text-sm font-semibold" style={{ color: '#e0f2fe' }}>代码实现</span>
+            <span className="text-sm font-semibold" style={{ color: '#e0f2fe' }}>{backContent ? '知识卡片' : '代码实现'}</span>
           </div>
           
           <div 
             className="flex-1 overflow-auto rounded-lg p-3"
             style={{ 
               background: 'rgba(10, 25, 41, 0.8)',
-              fontFamily: "'SF Mono', 'Fira Code', monospace"
             }}
           >
-            <pre className="text-xs whitespace-pre-wrap" style={{ color: '#7dd3fc' }}>
-              {code || '// 点击查看完整代码'}
-            </pre>
+            {backContent ? (
+              <p className="text-sm whitespace-pre-wrap" style={{ color: '#cbd5e1' }}>
+                {backContent}
+              </p>
+            ) : (
+              <pre className="text-xs whitespace-pre-wrap" style={{ color: '#7dd3fc', fontFamily: "'SF Mono', 'Fira Code', monospace" }}>
+                {code || '// 点击查看完整代码'}
+              </pre>
+            )}
           </div>
           
           <div className="mt-4 text-xs flex items-center gap-2" style={{ color: '#64748b' }}>

@@ -1,465 +1,546 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Bot, User, Sparkles, Loader2, Trash2, Copy, ThumbsUp, ThumbsDown, Target, FileText, Code, Brain, Briefcase, Zap } from 'lucide-react'
-import OceanEffects from '@/components/OceanEffects'
+import { Send, Trash2, Copy, ThumbsUp, ThumbsDown, Sparkles, Brain, Briefcase, FileText, Zap, Loader2, History, ChevronDown, ChevronUp, Star, Clock, Square } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeHighlight from 'rehype-highlight'
+import { GlowBox } from '@/components/AnimatedBorder'
 
+// ============ Types ============
+type TabType = 'chat' | 'interview' | 'exam'
 type InterviewType = 'behavioral' | 'technical' | 'system-design' | 'coding'
-type QuestionType = 'single' | 'multiple' | 'coding' | 'open'
+type QuestionType = 'single' | 'multiple' | 'open' | 'coding'
 
-interface Question {
+interface Message {
   id: string
-  type: QuestionType
-  question: string
-  options?: string[]
-  correctAnswer?: string | string[]
-  hint?: string
-  explanation?: string
+  role: 'user' | 'assistant'
+  content: string
+  timestamp: Date
+  rating?: 'up' | 'down'
+  isStreaming?: boolean
 }
 
 interface InterviewQuestion {
   id: string
-  category: InterviewType
   question: string
   tips: string[]
   goodAnswer: string
   badAnswer: string
+  category: InterviewType
+  keywords?: string[]
 }
 
-// 笔试题库
-const questionBank: Record<InterviewType, Question[]> = {
-  behavioral: [
-    {
-      id: 'b1',
-      type: 'open',
-      question: '请介绍一下你自己，以及你为什么想面试这个岗位？',
-      tips: ['突出技术背景和项目经验', '结合应聘岗位JD说明匹配度', '控制在2-3分钟'],
-      goodAnswer: '我是一名10年前端开发工程师，擅长Vue/React全栈开发，近两年专注于AI大模型应用开发。贵司的岗位要求与我的经历高度匹配...',
-      badAnswer: '我叫xxx，我想要这份工作...'
-    },
-    {
-      id: 'b2',
-      type: 'single',
-      question: '你在项目中遇到的最大挑战是什么？如何解决的？',
-      options: ['A. 描述挑战\nB. 说明解决方案\nC. 总结结果和收获', 'A. 描述挑战', 'STAR法则：Situation-Task-Action-Result'],
-      tips: ['使用STAR法则', '量化你的成果'],
-      goodAnswer: '当时项目需要3个月，我用2个月完成...',
-      badAnswer: '没什么挑战...'
-    },
-    {
-      id: 'b3',
-      type: 'multiple',
-      question: '你最大的优点和缺点是什么？',
-      options: ['优点要量化：代码质量高、项目交付快', '缺点要真实但可控', '展示自我认知和改进意识'],
-      tips: ['优点要具体可证明', '缺点要真诚但不影响工作'],
-      goodAnswer: '优点：喜欢优化，性能提升50%案例...缺点：有时过于追求完美...',
-      badAnswer: '我太完美主义了（太假）'
-    },
-    {
-      id: 'b4',
-      type: 'open',
-      question: '你为什么离开上一家公司？',
-      tips: ['避免负面评价前公司', '聚焦个人发展', '表达对未来的期待'],
-      goodAnswer: '希望寻求更大平台，专注AI方向...',
-      badAnswer: '领导太烂/钱太少/加班太狠'
-    }
-  ],
-  technical: [
-    {
-      id: 't1',
-      type: 'single',
-      question: '以下哪个不是 JavaScript 的原始数据类型？',
-      options: ['A. string\nB. boolean\nC. object\nD. undefined', 'C'],
-      tips: ['原始类型：string, number, boolean, null, undefined, symbol, bigint'],
-      explanation: 'object 是引用类型，其他都是原始类型'
-    },
-    {
-      id: 't2',
-      type: 'single',
-      question: 'Vue3 中，实现响应式的最佳方式是？',
-      options: ['A. Object.defineProperty\nB. Proxy\nC. get/set\nD. 手动监听', 'B'],
-      tips: ['Vue3 使用 Proxy 替代了 Vue2 的 defineProperty'],
-      explanation: 'Proxy 可以检测数组变化，监听新增属性，性能更好'
-    },
-    {
-      id: 't3',
-      type: 'multiple',
-      question: '以下哪些方法可以清除 CSS 浮动？',
-      options: ['A. overflow: hidden\nB. display: flex\nC. ::after 伪元素\nD. clearfix', 'A,B,C,D'],
-      tips: ['现代布局推荐使用 flex/grid'],
-      explanation: '四种方法都可以，常用的是 BFC 和 clearfix'
-    },
-    {
-      id: 't4',
-      type: 'single',
-      question: 'HTTP 状态码 304 表示？',
-      options: ['A. 服务器错误\nB. 重定向\nC. 未修改\nD. 客户端错误', 'C'],
-      tips: ['304 = Not Modified，使用缓存'],
-      explanation: '304 表示资源未修改，浏览器使用本地缓存'
-    },
-    {
-      id: 't5',
-      type: 'open',
-      question: '请解释什么是 Event Loop，并说明 setTimeout 和 Promise 的执行顺序',
-      tips: ['先说同步，再讲任务队列', '区分宏任务和微任务'],
-      goodAnswer: 'Event Loop 是 JavaScript 处理异步的机制...同步任务 > 微任务(Promise) > 宏任务(setTimeout)...',
-      badAnswer: '就是事件循环...'
-    }
-  ],
-  'system-design': [
-    {
-      id: 's1',
-      type: 'open',
-      question: '如何设计一个秒杀系统？',
-      tips: ['高并发、库存超卖、防刷', 'CDN、缓存、消息队列', '限流、熔断、降级'],
-      goodAnswer: '1. 前端：按钮防抖、验证码\n2. 接入层：CDN、限流\n3. 服务层：消息队列、乐观锁\n4. 数据层：Redis缓存、数据库事务',
-      badAnswer: '直接扣库存就行...'
-    },
-    {
-      id: 's2',
-      type: 'open',
-      question: '设计一个短链接系统',
-      tips: ['哈希算法生成短码', '唯一索引避免冲突', '跳转性能优化'],
-      goodAnswer: '1. 62进制生成6位短码\n2. Redis缓存热点数据\n3. 数据库索引优化\n4. 301/302重定向',
-      badAnswer: '存到数据库就行...'
-    }
-  ],
-  coding: [
-    {
-      id: 'c1',
-      type: 'coding',
-      question: '实现防抖函数 debounce',
-      options: ['```javascript\nfunction debounce(fn, delay) {\n  let timer = null\n  return function(...args) {\n    clearTimeout(timer)\n    timer = setTimeout(() => {\n      fn.apply(this, args)\n    }, delay)\n  }\n}\n```'],
-      tips: ['使用闭包保存定时器', '清除上一次的定时器', '使用 apply 绑定 this'],
-      goodAnswer: 'function debounce(fn, delay) {\n  let timer = null\n  return function(...args) {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn.apply(this, args), delay)\n  }\n}',
-      badAnswer: '不会...'
-    },
-    {
-      id: 'c2',
-      type: 'coding',
-      question: '实现深拷贝函数 deepClone',
-      options: ['```javascript\nfunction deepClone(obj, map = new Map()) {\n  if (obj === null || typeof obj !== \'object\') return obj\n  if (map.has(obj)) return map.get(obj)\n  const clone = Array.isArray(obj) ? [] : {}\n  map.set(obj, clone)\n  for (const key in obj) {\n    clone[key] = deepClone(obj[key], map)\n  }\n  return clone\n}\n```'],
-      tips: ['处理循环引用', '区分数组和对象', '使用 WeakMap 避免内存泄漏'],
-      goodAnswer: 'function deepClone(obj) {\n  if (obj === null) return null\n  if (typeof obj !== \'object\') return obj\n  const clone = Array.isArray(obj) ? [] : {}\n  for (let key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key])\n    }\n  }\n  return clone\n}',
-      badAnswer: 'JSON.parse(JSON.stringify(obj))'
-    },
-    {
-      id: 'c3',
-      type: 'coding',
-      question: '实现数组扁平化 flatten',
-      options: ['```javascript\n// 方法1：reduce\nconst flatten = (arr) => arr.reduce((acc, val) => \n  Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), [])\n\n// 方法2：flat\nconst flatten = (arr) => arr.flat(Infinity)\n```'],
-      tips: ['递归处理', 'reduce 方法', 'Array.flat()'],
-      goodAnswer: 'function flatten(arr) {\n  return arr.reduce((res, item) => {\n    return res.concat(Array.isArray(item) ? flatten(item) : item)\n  }, [])\n}',
-      badAnswer: '不会...'
-    }
-  ]
+interface InterviewRecord {
+  id: string
+  question: string
+  category: InterviewType
+  difficulty: string
+  userAnswer: string
+  tips: string[]
+  goodAnswer: string
+  badAnswer: string
+  timestamp: number
+  keywords?: string[]
 }
 
-// 面试题库
-const interviewQuestions: InterviewQuestion[] = [
-  {
-    id: 'i1',
-    category: 'behavioral',
-    question: '你为什么想加入我们公司？',
-    tips: ['了解公司业务', '匹配个人发展', '真诚表达']
-  },
-  {
-    id: 'i2',
-    category: 'technical',
-    question: 'Vue3 的 Composition API 相比 Options API 有什么优势？',
-    tips: ['逻辑复用更灵活', '更好的 TypeScript 支持', '代码组织更清晰']
-  },
-  {
-    id: 'i3',
-    category: 'system-design',
-    question: '如何设计一个高可用的前端监控系统？',
-    tips: ['性能指标采集', '错误边界处理', '数据上报策略']
-  },
-  {
-    id: 'i4',
-    category: 'coding',
-    question: '手写一个发布订阅模式 EventEmitter',
-    tips: ['on/off/emit/once', '事件队列管理', 'this 绑定问题']
+interface ExamQuestion {
+  id: string
+  type: QuestionType
+  question: string
+  options?: string[]
+  explanation?: string
+  tip?: string
+  _correctAnswer?: string | string[]
+}
+
+// ============ API Functions ============
+
+async function* streamChat(messages: { role: string; content: string }[], signal?: AbortSignal) {
+  const response = await fetch('/api/ai-agent/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+    signal,
+  })
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  const reader = response.body!.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() || ''
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed.startsWith('data:')) continue
+      const data = trimmed.slice(5).trim()
+      if (!data || data === '[DONE]') continue
+      try {
+        const json = JSON.parse(data)
+        if (json.type === 'chunk') yield json.content as string
+        else if (json.type === 'done') return
+        else if (json.type === 'error') throw new Error(json.message)
+      } catch { /* skip */ }
+    }
   }
-]
-
-// 气泡背景
-function Bubbles() {
-  return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-      {[...Array(15)].map((_, i) => (
-        <div key={i} className="absolute rounded-full animate-pulse"
-          style={{
-            left: `${Math.random() * 100}%`,
-            bottom: '-50px',
-            width: Math.random() * 10 + 3,
-            height: Math.random() * 10 + 3,
-            background: `rgba(14, 165, 233, ${Math.random() * 0.3 + 0.1})`,
-            animationDuration: `${3 + Math.random() * 4}s`,
-            animationDelay: `${Math.random() * 3}s`
-          }}
-        />
-      ))}
-      <motion.div className="absolute text-2xl" style={{ top: '15%', left: '5%' }}
-        animate={{ y: [0, -20, 0], rotate: [-5, 5, -5], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity }}>🐠</motion.div>
-      <motion.div className="absolute text-xl" style={{ top: '25%', right: '8%' }}
-        animate={{ y: [0, -15, 0], x: [0, 10, 0], opacity: [0.2, 0.5, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1 }}>🐟</motion.div>
-      <motion.div className="absolute text-3xl" style={{ top: '40%', left: '3%' }}
-        animate={{ y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 7, repeat: Infinity, delay: 2 }}>🦈</motion.div>
-      <motion.div className="absolute text-xl" style={{ top: '60%', right: '5%' }}
-        animate={{ y: [0, -12, 0], rotate: [-3, 3, -3], opacity: [0.2, 0.5, 0.2] }}
-        transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}>🐙</motion.div>
-      <motion.div className="absolute text-2xl" style={{ top: '75%', left: '8%' }}
-        animate={{ y: [0, -18, 0], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}>🪼</motion.div>
-    </div>
-  )
 }
 
+async function fetchInterviewQuestion(type: InterviewType, difficulty: string = 'medium') {
+  const res = await fetch('/api/ai-agent/interview', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type, difficulty }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || '获取面试题失败')
+  return data.data as InterviewQuestion
+}
+
+async function fetchExamQuestions(category: string = 'technical', count: number = 5) {
+  const res = await fetch('/api/ai-agent/exam', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ category, count }),
+  })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || '获取笔试题失败')
+  return data.data as ExamQuestion[]
+}
+
+// ============ Main Component ============
 export default function AIAgent() {
-  // Tab state
-  const [activeTab, setActiveTab] = useState<'chat' | 'interview' | 'exam'>('chat')
-  
+  const [activeTab, setActiveTab] = useState<TabType>('chat')
+
   // Chat state
-  const [messages, setMessages] = useState([
-    {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      const saved = localStorage.getItem('ai-chat-history')
+      if (saved) return JSON.parse(saved)
+    } catch { /* ignore */ }
+    return [{
       id: '1',
-      role: 'assistant',
-      content: `🌊 你好！我是 AI 面试助手 🐙
-
-我可以帮你：
-• 💬 聊天问答
-• 🎯 模拟面试（行为面/技术面）
-• 📝 在线笔试（选择/编程）
-
-有什么想聊的吗？`,
+      role: 'assistant' as const,
+      content: `🌊 你好！我是 **AI 面试助手** 🐙\n\n我可以帮你：\n- 💬 聊天问答（前端技术问题）\n- 🎯 模拟面试（AI 智能出题）\n- 📝 在线笔试（选择/简答/编程）\n\n有什么想聊的吗？`,
       timestamp: new Date()
-    }
-  ])
+    }]
+  })
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const abortRef = useRef<AbortController | null>(null)
+
   // Interview state
+  const [interviewType, setInterviewType] = useState<InterviewType>('technical')
+  const [interviewDifficulty, setInterviewDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [currentQuestion, setCurrentQuestion] = useState<InterviewQuestion | null>(null)
   const [userAnswer, setUserAnswer] = useState('')
   const [showFeedback, setShowFeedback] = useState(false)
-  const [interviewType, setInterviewType] = useState<InterviewType>('behavioral')
-  
+  const [interviewLoading, setInterviewLoading] = useState(false)
+  const [interviewError, setInterviewError] = useState('')
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [interviewHistory, setInterviewHistory] = useState<InterviewRecord[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      const saved = localStorage.getItem('interview-history')
+      return saved ? JSON.parse(saved) : []
+    } catch { return [] }
+  })
+
   // Exam state
-  const [examType, setExamType] = useState<InterviewType>('technical')
-  const [examQuestions, setExamQuestions] = useState<Question[]>([])
+  const [examCategory, setExamCategory] = useState<'technical' | 'behavioral'>('technical')
+  const [examQuestions, setExamQuestions] = useState<ExamQuestion[]>([])
   const [currentExamIndex, setCurrentExamIndex] = useState(0)
-  const [userExamAnswer, setUserExamAnswer] = useState<Record<string, any>>({})
+  const [userExamAnswers, setUserExamAnswers] = useState<Record<string, string | string[]>>({})
   const [examSubmitted, setExamSubmitted] = useState(false)
-  const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [examScore, setExamScore] = useState({ correct: 0, total: 0 })
+  const [examLoading, setExamLoading] = useState(false)
+  const [examError, setExamError] = useState('')
 
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-
+  // Scroll to bottom
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   useEffect(() => { scrollToBottom() }, [messages])
 
-  // Chat handlers
+  // Persist chat history
+  useEffect(() => {
+    localStorage.setItem('ai-chat-history', JSON.stringify(messages))
+  }, [messages])
+
+  // Persist history
+  useEffect(() => {
+    localStorage.setItem('interview-history', JSON.stringify(interviewHistory))
+  }, [interviewHistory])
+
+  // Save interview record
+  const saveInterviewRecord = useCallback((q: InterviewQuestion, ans: string) => {
+    const record: InterviewRecord = {
+      id: Date.now().toString(),
+      question: q.question,
+      category: q.category,
+      difficulty: interviewDifficulty,
+      userAnswer: ans,
+      tips: q.tips,
+      goodAnswer: q.goodAnswer,
+      badAnswer: q.badAnswer,
+      timestamp: Date.now(),
+      keywords: q.keywords,
+    }
+    setInterviewHistory(prev => [record, ...prev].slice(0, 50))
+  }, [interviewDifficulty])
+
+  // ============ Chat Handlers ============
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
-    const userMessage = { id: Date.now().toString(), role: 'user' as const, content: input.trim(), timestamp: new Date() }
-    setMessages(prev => [...prev, userMessage])
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input.trim(),
+      timestamp: new Date(),
+    }
+    setMessages(prev => [...prev, userMsg])
     setInput('')
     setIsLoading(true)
-    setTimeout(() => {
-      const responses = [
-        { content: `很好的问题！关于「${input.slice(0, 20)}...」让我来解答：\n\n**核心要点：**\n1. 这是现代前端开发的重要概念\n2. 需要理解底层原理\n3. 实践中要多加运用\n\n有什么具体场景想讨论吗？` },
-        { content: `这是个很棒的问题！🌊\n\n从我的经验来看：\n• **理论层面**：需要扎实的基础\n• **实践层面**：多写代码多踩坑\n• **进阶层面**：理解底层原理\n\n建议结合项目来学习，效果更好！` },
-        { content: `让我来回答这个问题～\n\n**主要观点：**\n1. 先掌握基础概念\n2. 然后深入原理\n3. 最后应用于实践\n\n如果你想深入讨论某个点，随时问我！` }
-      ]
-      const response = responses[Math.floor(Math.random() * responses.length)]
-      const assistantMessage = { id: (Date.now() + 1).toString(), role: 'assistant' as const, content: response.content, timestamp: new Date() }
-      setMessages(prev => [...prev, assistantMessage])
+    const aiMsgId = (Date.now() + 1).toString()
+    setMessages(prev => [...prev, { id: aiMsgId, role: 'assistant', content: '', timestamp: new Date(), isStreaming: true }])
+
+    // 创建 AbortController
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    try {
+      const history = messages.map(m => ({ role: m.role, content: m.content }))
+      history.push({ role: 'user', content: userMsg.content })
+      let fullContent = ''
+      for await (const chunk of streamChat(history, controller.signal)) {
+        fullContent += chunk
+        setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, content: fullContent } : m))
+      }
+    } catch (err) {
+      const isAborted = err instanceof DOMException && err.name === 'AbortError'
+      if (isAborted) {
+        setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, content: m.content || '⏹ 已停止生成', isStreaming: false } : m))
+      } else {
+        const errorMsg = err instanceof Error ? err.message : 'AI 连接失败'
+        setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, content: '❌ ' + errorMsg, isStreaming: false } : m))
+      }
+    } finally {
       setIsLoading(false)
-    }, 1500)
-  }
-
-  const handleClear = () => {
-    setMessages([{ id: Date.now().toString(), role: 'assistant', content: '🌊 对话已清空！小蓝鱼已准备好，有什么新问题吗？🐠', timestamp: new Date() }])
-  }
-
-  // Interview handlers
-  const startInterview = () => {
-    const questions = interviewQuestions.filter(q => q.category === interviewType)
-    const randomQ = questions[Math.floor(Math.random() * questions.length)]
-    setCurrentQuestion(randomQ)
-    setUserAnswer('')
-    setShowFeedback(false)
-  }
-
-  const submitInterviewAnswer = () => {
-    if (!userAnswer.trim()) return
-    setShowFeedback(true)
-  }
-
-  // Exam handlers
-  const startExam = () => {
-    const questions = questionBank[examType]
-    const shuffled = [...questions].sort(() => Math.random() - 0.5).slice(0, 5)
-    setExamQuestions(shuffled)
-    setCurrentExamIndex(0)
-    setUserExamAnswer({})
-    setExamSubmitted(false)
-    setScore({ correct: 0, total: shuffled.length })
-  }
-
-  const submitExamAnswer = (answer: string) => {
-    setUserExamAnswer(prev => ({ ...prev, [examQuestions[currentExamIndex].id]: answer }))
-    if (currentExamIndex < examQuestions.length - 1) {
-      setCurrentExamIndex(prev => prev + 1)
-    } else {
-      // Calculate score
-      let correct = 0
-      examQuestions.forEach(q => {
-        const userAns = userExamAnswer[q.id] || answer
-        if (q.type === 'single' || q.type === 'coding') {
-          if (userAns === q.correctAnswer) correct++
-        } else if (q.type === 'multiple') {
-          if (JSON.stringify([...userAns].sort()) === JSON.stringify([...(q.correctAnswer as string[])])) correct++
-        }
-      })
-      if (answer && answer !== userExamAnswer[examQuestions[currentExamIndex]?.id]) correct++
-      setScore({ correct, total: examQuestions.length })
-      setExamSubmitted(true)
+      abortRef.current = null
+      setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, isStreaming: false } : m))
     }
   }
 
-  const handleRating = (id: string, rating: 'up' | 'down') => {
-    setMessages(prev => prev.map(msg => msg.id === id ? { ...msg, rating } : msg))
+  // 停止生成
+  const handleStop = () => {
+    abortRef.current?.abort()
   }
 
-  const handleCopy = (content: string) => navigator.clipboard.writeText(content)
+  const handleClear = () => {
+    const freshMessages = [{
+      id: Date.now().toString(),
+      role: 'assistant' as const,
+      content: '🌊 对话已清空！小蓝鱼已准备好，有什么新问题吗？🐠',
+      timestamp: new Date()
+    }]
+    setMessages(freshMessages)
+    localStorage.removeItem('ai-chat-history')
+  }
+
+  const handleRating = (id: string, rating: 'up' | 'down') => {
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, rating } : m))
+  }
+
+  // ============ Interview Handlers ============
+  const startInterview = async () => {
+    setInterviewLoading(true)
+    setInterviewError('')
+    setCurrentQuestion(null)
+    setUserAnswer('')
+    setShowFeedback(false)
+    try {
+      const question = await fetchInterviewQuestion(interviewType, interviewDifficulty)
+      setCurrentQuestion(question)
+    } catch (err) {
+      setInterviewError(err instanceof Error ? err.message : '获取面试题失败')
+    } finally {
+      setInterviewLoading(false)
+    }
+  }
+
+  const submitInterviewAnswer = () => {
+    if (!userAnswer.trim() || !currentQuestion) return
+    saveInterviewRecord(currentQuestion, userAnswer)
+    setShowFeedback(true)
+  }
+
+  // ============ Exam Handlers ============
+  const startExam = async () => {
+    setExamLoading(true)
+    setExamError('')
+    setExamQuestions([])
+    setCurrentExamIndex(0)
+    setUserExamAnswers({})
+    setExamSubmitted(false)
+    setExamScore({ correct: 0, total: 0 })
+    try {
+      const questions = await fetchExamQuestions(examCategory, 5)
+      setExamQuestions(questions)
+    } catch (err) {
+      setExamError(err instanceof Error ? err.message : '获取笔试题失败')
+    } finally {
+      setExamLoading(false)
+    }
+  }
+
+  const handleExamAnswer = (answer: string) => {
+    const q = examQuestions[currentExamIndex]
+    setUserExamAnswers(prev => ({ ...prev, [q.id]: answer }))
+    if (q.type !== 'open' && q.type !== 'coding') {
+      setTimeout(() => {
+        const finalAns = { ...userExamAnswers, [q.id]: answer }
+        if (currentExamIndex < examQuestions.length - 1) {
+          setCurrentExamIndex(prev => prev + 1)
+        } else {
+          finishExam(finalAns)
+        }
+      }, 300)
+    }
+  }
+
+  const finishExam = (finalAnswers: Record<string, string | string[]>) => {
+    let correct = 0
+    examQuestions.forEach(q => {
+      const userAns = finalAnswers[q.id]
+      if (!userAns) return
+      if (q.type === 'single' && userAns === q._correctAnswer) correct++
+      else if (q.type === 'multiple') {
+        const us = new Set(Array.isArray(userAns) ? userAns : [userAns])
+        const cs = new Set(Array.isArray(q._correctAnswer) ? q._correctAnswer : [q._correctAnswer])
+        if (us.size === cs.size && Array.from(us).every(a => cs.has(a))) correct++
+      } else if (q.type === 'open' || q.type === 'coding') {
+        const correctText = String(q._correctAnswer || '').toLowerCase()
+        const userText = String(userAns).toLowerCase()
+        const keywords = correctText.split(/[，。、,\s]+/).filter((k: string) => k.length > 1)
+        const matched = keywords.filter((k: string) => userText.includes(k)).length
+        if (keywords.length === 0 || matched / keywords.length >= 0.5) correct++
+      }
+    })
+    setExamScore({ correct, total: examQuestions.length })
+    setExamSubmitted(true)
+  }
+
+  const submitOpenAnswer = () => {
+    const q = examQuestions[currentExamIndex]
+    if (currentExamIndex < examQuestions.length - 1) {
+      setCurrentExamIndex(prev => prev + 1)
+    } else {
+      finishExam(userExamAnswers)
+    }
+  }
+
+  const categoryLabels: Record<string, string> = {
+    behavioral: '💬 行为面',
+    technical: '💻 技术面',
+    'system-design': '🏗️ 系统设计',
+    coding: '⌨️ 代码面',
+  }
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #0a1929 0%, #0d2137 100%)' }}>
-      <Bubbles />
+      {/* Bubbles */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className="absolute rounded-full animate-pulse" style={{
+            left: `${Math.random() * 100}%`, bottom: '-50px',
+            width: Math.random() * 10 + 3, height: Math.random() * 10 + 3,
+            background: `rgba(14, 165, 233, ${Math.random() * 0.3 + 0.1})`,
+            animationDuration: `${3 + Math.random() * 4}s`,
+            animationDelay: `${Math.random() * 3}s`
+          }} />
+        ))}
+        <motion.div className="absolute text-2xl" style={{ top: '15%', left: '5%' }}
+          animate={{ y: [0, -20, 0], rotate: [-5, 5, -5], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 6, repeat: Infinity }}>🐠</motion.div>
+        <motion.div className="absolute text-xl" style={{ top: '25%', right: '8%' }}
+          animate={{ y: [0, -15, 0], x: [0, 10, 0], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 1 }}>🐟</motion.div>
+        <motion.div className="absolute text-3xl" style={{ top: '40%', left: '3%' }}
+          animate={{ y: [0, -25, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 7, repeat: Infinity, delay: 2 }}>🦈</motion.div>
+        <motion.div className="absolute text-xl" style={{ top: '60%', right: '5%' }}
+          animate={{ y: [0, -12, 0], rotate: [-3, 3, -3], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}>🐙</motion.div>
+        <motion.div className="absolute text-2xl" style={{ top: '75%', left: '8%' }}
+          animate={{ y: [0, -18, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 1.5 }}>🪼</motion.div>
+      </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-sky-500/20">
-        <div className="max-w-5xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <svg width="32" height="32" viewBox="0 0 36 36">
-                <path d="M4,20 Q10,12 18,18 Q26,24 32,16" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                <path d="M4,26 Q12,18 18,24 Q28,32 32,24" stroke="#0ea5e9" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-                <path d="M6,30 Q14,24 20,28 Q28,34 30,28" stroke="#7dd3fc" strokeWidth="2" fill="none" strokeLinecap="round"/>
-                <circle cx="18" cy="14" r="2" fill="#e0f2fe" opacity="0.8"/>
-              </svg>
-              <span className="font-bold text-white">AI Interview Assistant</span>
-            </div>
-            <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-50">
+        {/* 流光顶部条 */}
+        <div className="h-[2px] relative overflow-hidden"
+          style={{ background: 'linear-gradient(90deg, #0a1929, #0ea5e9, #818cf8, #c084fc, #0ea5e9, #0a1929)', backgroundSize: '200% 100%', animation: 'headerFlow 4s linear infinite' }}>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent 0%, #fff 50%, transparent 100%)', opacity: 0.6, animation: 'headerSweep 2s ease-in-out infinite' }}/>
+        </div>
+        
+        <div className="bg-slate-900/80 backdrop-blur-lg border-b border-sky-500/20">
+          <div className="max-w-5xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between mb-4">
+              {/* 标题区流动边框 */}
+              <GlowBox colors={['#38bdf8', '#818cf8', '#c084fc', '#f472b6']}>
+                <div className="flex items-center gap-3 px-4 py-2">
+                  <svg width="32" height="32" viewBox="0 0 36 36">
+                    <path d="M4,20 Q10,12 18,18 Q26,24 32,16" stroke="#38bdf8" strokeWidth="3" fill="none" strokeLinecap="round"/>
+                    <path d="M4,26 Q12,18 18,24 Q28,32 32,24" stroke="#0ea5e9" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                    <path d="M6,30 Q14,24 20,28 Q28,34 30,28" stroke="#7dd3fc" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                    <circle cx="18" cy="14" r="2" fill="#e0f2fe" opacity="0.8"/>
+                  </svg>
+                  <span className="font-bold text-white text-lg">AI Interview Assistant</span>
+                  <span className="px-2 py-0.5 rounded-full text-xs bg-green-500/20 text-green-400 border border-green-500/30">🟢 智谱GLM</span>
+                </div>
+              </GlowBox>
               <button onClick={handleClear} className="px-4 py-2 rounded-full text-sm text-sky-400 hover:text-white transition-colors">
                 <Trash2 size={16} className="inline mr-1" />
                 Clear
               </button>
             </div>
-          </div>
-          
-          {/* Tab Navigation */}
-          <div className="flex gap-2 mt-4">
-            {[
-              { id: 'chat', icon: <Brain size={18} />, label: 'AI Chat' },
-              { id: 'interview', icon: <Briefcase size={18} />, label: 'Mock Interview' },
-              { id: 'exam', icon: <FileText size={18} />, label: 'Written Test' },
-            ].map(tab => (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                  activeTab === tab.id ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30' : 'text-gray-400 hover:text-white'
-                }`}>
-                {tab.icon}
-                {tab.label}
-              </button>
-            ))}
+            <div className="flex gap-2">
+              {[
+                { id: 'chat', icon: <Brain size={18} />, label: 'AI Chat' },
+                { id: 'interview', icon: <Briefcase size={18} />, label: 'Mock Interview' },
+                { id: 'exam', icon: <FileText size={18} />, label: 'Written Test' },
+              ].map(tab => (
+                <button key={tab.id} onClick={() => setActiveTab(tab.id as TabType)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                    activeTab === tab.id ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30' : 'text-gray-400 hover:text-white'
+                  }`}>
+                  {tab.icon}
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8 pb-24">
-        {/* AI Chat Tab */}
+      <main className="max-w-5xl mx-auto px-6 py-8 pb-28">
+        {/* ===== Chat Tab ===== */}
         {activeTab === 'chat' && (
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <AnimatePresence>
-                {messages.map(message => (
-                  <motion.div key={message.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-                    className={`flex gap-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    {message.role === 'assistant' && (
-                      <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-blue-500 flex items-center justify-center flex-shrink-0 text-xl" whileHover={{ scale: 1.1 }}>
-                        🐙
-                      </motion.div>
-                    )}
-                    <div className={`max-w-[80%] ${message.role === 'user' ? 'order-1' : ''}`}>
-                      <div className="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-4 border border-sky-500/20">
-                        <p className="text-slate-200 whitespace-pre-wrap leading-relaxed">{message.content}</p>
-                        {message.role === 'assistant' && (
-                          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-sky-500/10">
-                            <span className="text-xs text-slate-500">有帮助吗？</span>
-                            <button onClick={() => handleRating(message.id, 'up')} className={`p-1.5 rounded-lg transition-all ${message.rating === 'up' ? 'bg-green-500/20 text-green-400' : 'text-slate-500 hover:text-green-400'}`}>
-                              <ThumbsUp size={14} />
-                            </button>
-                            <button onClick={() => handleRating(message.id, 'down')} className={`p-1.5 rounded-lg transition-all ${message.rating === 'down' ? 'bg-red-500/20 text-red-400' : 'text-slate-500 hover:text-red-400'}`}>
-                              <ThumbsDown size={14} />
-                            </button>
-                            <button onClick={() => handleCopy(message.content)} className="p-1.5 rounded-lg text-slate-500 hover:text-sky-400 transition-all">
-                              <Copy size={14} />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    {message.role === 'user' && (
-                      <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center flex-shrink-0 text-xl" whileHover={{ scale: 1.1 }}>
-                        🐳
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-              {isLoading && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
-                  <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-blue-500 flex items-center justify-center text-xl" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }}>
-                    🐠
-                  </motion.div>
-                  <div className="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-4 border border-sky-500/20">
-                    <div className="flex items-center gap-3 text-sky-300">
-                      <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 0.8, repeat: Infinity }}>
-                        🪼
-                      </motion.span>
-                      <span>小蓝鱼正在思考...</span>
+          <div className="space-y-4">
+            <AnimatePresence>
+              {messages.map(message => (
+                <motion.div key={message.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+                  className={`flex gap-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  {message.role === 'assistant' && (
+                    <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-blue-500 flex items-center justify-center flex-shrink-0 text-xl" whileHover={{ scale: 1.1 }}>
+                      🐙
+                    </motion.div>
+                  )}
+                  <div className={`max-w-[80%] ${message.role === 'user' ? 'order-1' : ''}`}>
+                    <div className="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-4 border border-sky-500/20">
+                      {message.role === 'assistant' ? (
+                        <div className="ai-markdown text-slate-200 leading-relaxed">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeHighlight]}
+                            components={{
+                              pre: ({ children }) => {
+                                // 提取代码语言
+                                const codeEl = children as React.ReactElement
+                                const lang = codeEl?.props?.className?.replace('hljs language-', '') || ''
+                                return (
+                                  <div>
+                                    {lang && (
+                                      <div className="code-block-header">
+                                        <span>{lang}</span>
+                                        <button
+                                          className="code-copy-btn"
+                                          onClick={() => {
+                                            const code = codeEl?.props?.children || ''
+                                            navigator.clipboard.writeText(typeof code === 'string' ? code : String(code))
+                                          }}
+                                        >复制</button>
+                                      </div>
+                                    )}
+                                    <pre>{children}</pre>
+                                  </div>
+                                )
+                              }
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                          {message.isStreaming && <span className="inline-block w-2 h-4 bg-sky-400 ml-1 animate-pulse rounded" />}
+                        </div>
+                      ) : (
+                        <p className="text-slate-200 whitespace-pre-wrap leading-relaxed">
+                          {message.content}
+                        </p>
+                      )}
+                      {message.role === 'assistant' && !message.isStreaming && (
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-sky-500/10">
+                          <span className="text-xs text-slate-500">有帮助吗？</span>
+                          <button onClick={() => handleRating(message.id, 'up')}
+                            className={`p-1.5 rounded-lg transition-all ${message.rating === 'up' ? 'bg-green-500/20 text-green-400' : 'text-slate-500 hover:text-green-400'}`}>
+                            <ThumbsUp size={14} />
+                          </button>
+                          <button onClick={() => handleRating(message.id, 'down')}
+                            className={`p-1.5 rounded-lg transition-all ${message.rating === 'down' ? 'bg-red-500/20 text-red-400' : 'text-slate-500 hover:text-red-400'}`}>
+                            <ThumbsDown size={14} />
+                          </button>
+                          <button onClick={() => navigator.clipboard.writeText(message.content)} className="p-1.5 rounded-lg text-slate-500 hover:text-sky-400 transition-all">
+                            <Copy size={14} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
+                  {message.role === 'user' && (
+                    <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center flex-shrink-0 text-xl" whileHover={{ scale: 1.1 }}>
+                      🐳
+                    </motion.div>
+                  )}
                 </motion.div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
+              ))}
+            </AnimatePresence>
+            {isLoading && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
+                <motion.div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-blue-500 flex items-center justify-center text-xl" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity }}>
+                  🐠
+                </motion.div>
+                <div className="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-4 border border-sky-500/20">
+                  <div className="flex items-center gap-3 text-sky-300">
+                    <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 0.8, repeat: Infinity }}>🪼</motion.span>
+                    <span>小蓝鱼正在思考...</span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
         )}
 
-        {/* Mock Interview Tab */}
+        {/* ===== Interview Tab ===== */}
         {activeTab === 'interview' && (
           <div className="space-y-6">
             {!currentQuestion ? (
               <>
                 <div className="text-center mb-8">
                   <h2 className="text-3xl font-bold text-white mb-4">🎯 模拟面试</h2>
-                  <p className="text-gray-400">选择一个面试类型开始练习</p>
+                  <p className="text-gray-400">AI 智能出题，真实面试体验</p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4 mb-8">
-                  {[
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  {([
                     { type: 'behavioral', icon: '💬', label: '行为面试', desc: '自我介绍、优缺点、职业规划' },
                     { type: 'technical', icon: '💻', label: '技术面试', desc: 'Vue、React、JavaScript' },
                     { type: 'system-design', icon: '🏗️', label: '系统设计', desc: '架构设计、方案权衡' },
                     { type: 'coding', icon: '⌨️', label: '代码面试', desc: '算法、手写实现' },
-                  ].map(item => (
-                    <button key={item.type} onClick={() => setInterviewType(item.type as InterviewType)}
+                  ] as { type: InterviewType; icon: string; label: string; desc: string }[]).map(item => (
+                    <button key={item.type} onClick={() => setInterviewType(item.type)}
                       className={`p-6 rounded-2xl border text-left transition-all ${
                         interviewType === item.type ? 'bg-sky-500/20 border-sky-500/50' : 'bg-slate-800/50 border-slate-700 hover:border-sky-500/30'
                       }`}>
@@ -469,20 +550,46 @@ export default function AIAgent() {
                     </button>
                   ))}
                 </div>
-                <motion.button onClick={startInterview}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white font-bold text-lg"
+                <div className="mb-6">
+                  <p className="text-sm text-gray-400 mb-3">选择难度</p>
+                  <div className="flex gap-3">
+                    {(['easy', 'medium', 'hard'] as const).map(d => (
+                      <button key={d} onClick={() => setInterviewDifficulty(d)}
+                        className={`flex-1 py-2 rounded-xl text-sm font-medium border transition-all ${
+                          interviewDifficulty === d
+                            ? d === 'easy' ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                            : d === 'medium' ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400'
+                            : 'bg-red-500/20 border-red-500/50 text-red-400'
+                            : 'bg-slate-800/50 border-slate-700 text-gray-400 hover:border-sky-500/30'
+                        }`}>
+                        {d === 'easy' ? '🟢 简单' : d === 'medium' ? '🟡 中等' : '🔴 困难'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {interviewError && (
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-center">
+                    ❌ {interviewError}
+                  </div>
+                )}
+                <motion.button onClick={startInterview} disabled={interviewLoading}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white font-bold text-lg disabled:opacity-60"
                   whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Sparkles size={20} className="inline mr-2" />
-                  开始面试
+                  {interviewLoading ? (
+                    <><Loader2 size={20} className="inline mr-2 animate-spin" />AI 出题中...</>
+                  ) : (
+                    <><Sparkles size={20} className="inline mr-2" />开始面试</>
+                  )}
                 </motion.button>
               </>
             ) : (
               <div className="bg-slate-800/50 rounded-2xl p-6 border border-sky-500/20">
                 <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-full text-sm bg-sky-500/20 text-sky-400">
-                    {currentQuestion.category === 'behavioral' ? '💬 行为面' : currentQuestion.category === 'technical' ? '💻 技术面' : currentQuestion.category === 'system-design' ? '🏗️ 系统设计' : '⌨️ 代码面'}
+                    {categoryLabels[currentQuestion.category]}
                   </span>
-                  <button onClick={() => { setCurrentQuestion(null); setShowFeedback(false) }} className="text-gray-400 hover:text-white">
+                  <button onClick={() => { setCurrentQuestion(null); setShowFeedback(false); setUserAnswer('') }}
+                    className="text-gray-400 hover:text-white">
                     <Trash2 size={18} />
                   </button>
                 </div>
@@ -497,29 +604,47 @@ export default function AIAgent() {
                 </div>
                 {!showFeedback ? (
                   <>
-                    <textarea value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)}
-                      placeholder="输入你的回答..."
-                      className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-gray-500 focus:outline-none focus:border-sky-500 resize-none h-40 mb-4" />
-                    <motion.button onClick={submitInterviewAnswer}
-                      className="w-full py-3 rounded-xl bg-sky-500 text-white font-medium" whileHover={{ scale: 1.02 }}>
-                      提交回答
-                    </motion.button>
+                    <textarea
+                      value={userAnswer}
+                      onChange={e => setUserAnswer(e.target.value)}
+                      placeholder="输入你的回答...（按 Enter 提交，Shift+Enter 换行）"
+                      className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-gray-500 focus:outline-none focus:border-sky-500 resize-none h-40 mb-4"
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault()
+                          submitInterviewAnswer()
+                        }
+                      }}
+                    />
+                    <div className="flex gap-3">
+                      <motion.button onClick={submitInterviewAnswer} disabled={!userAnswer.trim()}
+                        className="flex-1 py-3 rounded-xl bg-sky-500 text-white font-medium disabled:opacity-50"
+                        whileHover={{ scale: 1.02 }}>
+                        提交回答
+                      </motion.button>
+                      <button onClick={startInterview} disabled={interviewLoading}
+                        className="px-4 py-3 rounded-xl bg-slate-700 text-white text-sm disabled:opacity-50">
+                        <Loader2 size={16} className="inline mr-1 animate-spin" />换一题
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <div className="space-y-4">
                     <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
-                      <h4 className="font-bold text-green-400 mb-2">✅ 参考答案</h4>
+                      <h4 className="font-bold text-green-400 mb-2">✅ 优秀回答参考</h4>
                       <p className="text-gray-300 whitespace-pre-wrap">{currentQuestion.goodAnswer}</p>
                     </div>
                     <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
                       <h4 className="font-bold text-red-400 mb-2">❌ 常见错误</h4>
                       <p className="text-gray-300">{currentQuestion.badAnswer}</p>
                     </div>
-                    <div className="flex gap-4">
-                      <button onClick={startInterview} className="flex-1 py-3 rounded-xl bg-sky-500 text-white font-medium">
+                    <div className="flex gap-3">
+                      <button onClick={() => { startInterview(); setShowFeedback(false); setUserAnswer('') }}
+                        className="flex-1 py-3 rounded-xl bg-sky-500 text-white font-medium">
                         下一题
                       </button>
-                      <button onClick={() => setShowFeedback(false)} className="flex-1 py-3 rounded-xl bg-slate-700 text-white font-medium">
+                      <button onClick={() => { setShowFeedback(false); setUserAnswer('') }}
+                        className="flex-1 py-3 rounded-xl bg-slate-700 text-white font-medium">
                         重新回答
                       </button>
                     </div>
@@ -527,26 +652,127 @@ export default function AIAgent() {
                 )}
               </div>
             )}
+
+            {/* 历史记录面板 */}
+            {interviewHistory.length > 0 && (
+              <div className="mt-8 border-t border-slate-700/50 pt-6">
+                <button
+                  onClick={() => setHistoryOpen(v => !v)}
+                  className="flex items-center gap-2 w-full text-left text-gray-400 hover:text-white transition-colors mb-4"
+                >
+                  <History size={18} />
+                  <span className="text-sm font-medium">面试记录</span>
+                  <span className="text-xs bg-sky-500/20 text-sky-400 px-2 py-0.5 rounded-full">{interviewHistory.length}</span>
+                  <span className="ml-auto">{historyOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</span>
+                </button>
+                <AnimatePresence>
+                  {historyOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
+                        {interviewHistory.map((record) => (
+                          <details key={record.id} className="group bg-slate-800/30 rounded-xl border border-slate-700/50 overflow-hidden">
+                            <summary className="flex items-center gap-3 p-4 cursor-pointer list-none hover:bg-slate-800/50 transition-colors">
+                              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                                record.category === 'technical' ? 'bg-blue-400' :
+                                record.category === 'behavioral' ? 'bg-green-400' :
+                                record.category === 'coding' ? 'bg-yellow-400' : 'bg-purple-400'
+                              }`} />
+                              <span className="text-sm text-gray-200 flex-1 line-clamp-2">{record.question}</span>
+                              <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${
+                                record.difficulty === 'easy' ? 'bg-green-500/20 text-green-400' :
+                                record.difficulty === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
+                                'bg-red-500/20 text-red-400'
+                              }`}>
+                                {record.difficulty === 'easy' ? '🟢' : record.difficulty === 'medium' ? '🟡' : '🔴'}
+                              </span>
+                              <span className="text-xs text-gray-500 flex-shrink-0">
+                                {new Date(record.timestamp).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            </summary>
+                            <div className="px-4 pb-4 space-y-3 border-t border-slate-700/30 pt-3">
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">💬 你的回答</p>
+                                <p className="text-sm text-gray-300 whitespace-pre-wrap">{record.userAnswer}</p>
+                              </div>
+                              <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                                <p className="text-xs text-green-400 mb-1 flex items-center gap-1"><Star size={10} /> 优秀回答</p>
+                                <p className="text-sm text-gray-300 whitespace-pre-wrap">{record.goodAnswer}</p>
+                              </div>
+                              {record.badAnswer && (
+                                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                                  <p className="text-xs text-red-400 mb-1">⚠️ 常见错误</p>
+                                  <p className="text-sm text-gray-300">{record.badAnswer}</p>
+                                </div>
+                              )}
+                              {record.tips && record.tips.length > 0 && (
+                                <div className="flex flex-wrap gap-1.5">
+                                  {record.tips.map((tip, i) => (
+                                    <span key={i} className="text-xs px-2 py-1 rounded-md bg-slate-700/50 text-gray-400">{tip}</span>
+                                  ))}
+                                </div>
+                              )}
+                              <button
+                                onClick={() => setInterviewHistory(prev => prev.filter(r => r.id !== record.id))}
+                                className="text-xs text-gray-500 hover:text-red-400 transition-colors flex items-center gap-1"
+                              >
+                                <Trash2 size={12} /> 删除此记录
+                              </button>
+                            </div>
+                          </details>
+                        ))}
+                      </div>
+                      <div className="mt-3 flex gap-3">
+                        <button onClick={() => setInterviewHistory([])}
+                          className="text-xs text-gray-500 hover:text-red-400 transition-colors flex items-center gap-1">
+                          <Trash2 size={12} /> 清空全部
+                        </button>
+                        <button
+                          onClick={() => {
+                            const data = JSON.stringify(interviewHistory, null, 2)
+                            const blob = new Blob([data], { type: 'application/json' })
+                            const url = URL.createObjectURL(blob)
+                            const a = document.createElement('a')
+                            a.href = url
+                            a.download = `interview-history-${new Date().toISOString().slice(0, 10)}.json`
+                            a.click()
+                            URL.revokeObjectURL(url)
+                          }}
+                          className="text-xs text-gray-500 hover:text-sky-400 transition-colors flex items-center gap-1 ml-auto"
+                        >
+                          <Clock size={12} /> 导出 JSON
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Written Test Tab */}
+        {/* ===== Exam Tab ===== */}
         {activeTab === 'exam' && (
           <div className="space-y-6">
             {!examQuestions.length ? (
               <>
                 <div className="text-center mb-8">
                   <h2 className="text-3xl font-bold text-white mb-4">📝 在线笔试</h2>
-                  <p className="text-gray-400">选择一个类型开始答题</p>
+                  <p className="text-gray-400">AI 生成真实笔试题</p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4 mb-8">
-                  {[
-                    { type: 'technical', icon: '💻', label: '技术题', desc: 'JS/Vue/React/CSS' },
-                    { type: 'behavioral', icon: '💬', label: '软技能', desc: '职场沟通、团队协作' },
-                  ].map(item => (
-                    <button key={item.type} onClick={() => setExamType(item.type as InterviewType)}
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  {([
+                    { type: 'technical', icon: '💻', label: '技术题', desc: 'JS/Vue/React/CSS/网络' },
+                    { type: 'behavioral', icon: '💬', label: '软技能', desc: '沟通、协作、职业素养' },
+                  ] as { type: 'technical' | 'behavioral'; icon: string; label: string; desc: string }[]).map(item => (
+                    <button key={item.type} onClick={() => setExamCategory(item.type)}
                       className={`p-6 rounded-2xl border text-left transition-all ${
-                        examType === item.type ? 'bg-sky-500/20 border-sky-500/50' : 'bg-slate-800/50 border-slate-700 hover:border-sky-500/30'
+                        examCategory === item.type ? 'bg-sky-500/20 border-sky-500/50' : 'bg-slate-800/50 border-slate-700 hover:border-sky-500/30'
                       }`}>
                       <span className="text-4xl mb-3 block">{item.icon}</span>
                       <h3 className="text-lg font-bold text-white mb-1">{item.label}</h3>
@@ -554,24 +780,56 @@ export default function AIAgent() {
                     </button>
                   ))}
                 </div>
-                <motion.button onClick={startExam}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white font-bold text-lg"
+                {examError && (
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-center">
+                    ❌ {examError}
+                  </div>
+                )}
+                <motion.button onClick={startExam} disabled={examLoading}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white font-bold text-lg disabled:opacity-60"
                   whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Zap size={20} className="inline mr-2" />
-                  开始答题 (5题)
+                  {examLoading ? (
+                    <><Loader2 size={20} className="inline mr-2 animate-spin" />AI 出题中...</>
+                  ) : (
+                    <><Zap size={20} className="inline mr-2" />开始答题 (5题)</>
+                  )}
                 </motion.button>
               </>
             ) : examSubmitted ? (
               <div className="text-center py-12">
                 <div className="text-8xl mb-6">🎉</div>
                 <h2 className="text-3xl font-bold text-white mb-4">答题完成！</h2>
-                <div className="text-6xl font-bold mb-4" style={{ color: score.correct / score.total >= 0.8 ? '#22c55e' : score.correct / score.total >= 0.6 ? '#f59e0b' : '#ef4444' }}>
-                  {score.correct}/{score.total}
+                <div className="text-6xl font-bold mb-4" style={{
+                  color: examScore.correct / examScore.total >= 0.8 ? '#22c55e' : examScore.correct / examScore.total >= 0.6 ? '#f59e0b' : '#ef4444'
+                }}>
+                  {examScore.correct}/{examScore.total}
                 </div>
                 <p className="text-gray-400 mb-8">
-                  {score.correct / score.total >= 0.8 ? '优秀！' : score.correct / score.total >= 0.6 ? '还不错！' : '继续加油！'}
+                  {examScore.correct / examScore.total >= 0.8 ? '太棒了！' : examScore.correct / examScore.total >= 0.6 ? '还不错！' : '继续加油！'}
                 </p>
-                <button onClick={() => setExamQuestions([])} className="px-8 py-3 rounded-xl bg-sky-500 text-white font-medium">
+                <div className="space-y-3 max-w-md mx-auto">
+                  {examQuestions.map((q, i) => {
+                    const userAns = userExamAnswers[q.id]
+                    let isCorrect = false
+                    if (q.type === 'single') isCorrect = userAns === q._correctAnswer
+                    else if (q.type === 'multiple') {
+                      const us = new Set(Array.isArray(userAns) ? userAns : [])
+                      const cs = new Set(Array.isArray(q._correctAnswer) ? q._correctAnswer : [])
+                      isCorrect = us.size === cs.size && Array.from(us).every((a: string) => cs.has(a))
+                    }
+                    return (
+                      <div key={q.id} className="p-3 rounded-xl bg-slate-800/50 border border-slate-700 text-left">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className={isCorrect ? 'text-green-400' : 'text-red-400'}>{isCorrect ? '✅' : '❌'}</span>
+                          <span className="text-sm text-gray-300">第{i + 1}题</span>
+                        </div>
+                        <p className="text-xs text-gray-500 line-clamp-2">{q.question}</p>
+                        {q.explanation && <p className="text-xs text-sky-400 mt-1">💡 {q.explanation}</p>}
+                      </div>
+                    )
+                  })}
+                </div>
+                <button onClick={() => setExamQuestions([])} className="mt-8 px-8 py-3 rounded-xl bg-sky-500 text-white font-medium">
                   再来一轮
                 </button>
               </div>
@@ -581,46 +839,54 @@ export default function AIAgent() {
                   <span className="text-sky-400">第 {currentExamIndex + 1}/{examQuestions.length} 题</span>
                   <div className="flex gap-1">
                     {examQuestions.map((_, i) => (
-                      <div key={i} className={`w-2 h-2 rounded-full ${i <= currentExamIndex ? 'bg-sky-500' : 'bg-slate-700'}`} />
+                      <div key={i} className={`w-2 h-2 rounded-full transition-all ${i === currentExamIndex ? 'bg-sky-500 scale-125' : userExamAnswers[examQuestions[i].id] ? 'bg-green-500' : 'bg-slate-700'}`} />
                     ))}
                   </div>
                 </div>
-                <div className="mb-2">
-                  <span className={`px-2 py-1 rounded text-xs ${
-                    examQuestions[currentExamIndex].type === 'single' ? 'bg-green-500/20 text-green-400' :
-                    examQuestions[currentExamIndex].type === 'multiple' ? 'bg-yellow-500/20 text-yellow-400' :
-                    examQuestions[currentExamIndex].type === 'open' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'
-                  }`}>
-                    {examQuestions[currentExamIndex].type === 'single' ? '单选' : examQuestions[currentExamIndex].type === 'multiple' ? '多选' : examQuestions[currentExamIndex].type === 'open' ? '简答' : '编程'}
-                  </span>
-                </div>
+                <span className={`inline-block px-2 py-1 rounded text-xs mb-3 ${
+                  examQuestions[currentExamIndex].type === 'single' ? 'bg-green-500/20 text-green-400' :
+                  examQuestions[currentExamIndex].type === 'multiple' ? 'bg-yellow-500/20 text-yellow-400' :
+                  examQuestions[currentExamIndex].type === 'open' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'
+                }`}>
+                  {examQuestions[currentExamIndex].type === 'single' ? '📗 单选' :
+                   examQuestions[currentExamIndex].type === 'multiple' ? '📙 多选' :
+                   examQuestions[currentExamIndex].type === 'open' ? '📝 简答' : '💻 编程'}
+                </span>
                 <h3 className="text-lg text-white mb-4 whitespace-pre-wrap">{examQuestions[currentExamIndex].question}</h3>
-                {examQuestions[currentExamIndex].options && (
-                  <div className="space-y-3 mb-4">
-                    {(examQuestions[currentExamIndex].options || []).map((opt, i) => (
-                      <label key={i} className={`flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-all ${
-                        userExamAnswer[examQuestions[currentExamIndex].id] === opt ? 'bg-sky-500/20 border border-sky-500/50' : 'bg-slate-900/50 border border-slate-700 hover:border-sky-500/30'
-                      }`}>
-                        <input type="radio" name={`q-${currentExamIndex}`} checked={userExamAnswer[examQuestions[currentExamIndex].id] === opt}
-                          onChange={() => submitExamAnswer(opt)} className="mt-1" />
-                        <span className="text-gray-300 whitespace-pre-wrap">{opt}</span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-                {!examQuestions[currentExamIndex].options && (
-                  <textarea value={userExamAnswer[examQuestions[currentExamIndex].id] || ''}
-                    onChange={(e) => setUserExamAnswer(prev => ({ ...prev, [examQuestions[currentExamIndex].id]: e.target.value }))}
-                    placeholder="输入你的答案..."
-                    className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-gray-500 focus:outline-none focus:border-sky-500 resize-none h-40 mb-4" />
-                )}
                 {examQuestions[currentExamIndex].options ? (
-                  <p className="text-center text-gray-500 text-sm">选择后自动下一题</p>
+                  <div className="space-y-3 mb-4">
+                    {examQuestions[currentExamIndex].options!.map((opt, i) => {
+                      const isSelected = userExamAnswers[examQuestions[currentExamIndex].id] === opt
+                      return (
+                        <label key={i} className={`flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-all ${
+                          isSelected ? 'bg-sky-500/20 border border-sky-500/50' : 'bg-slate-900/50 border border-slate-700 hover:border-sky-500/30'
+                        }`}>
+                          <input
+                            type={examQuestions[currentExamIndex].type === 'multiple' ? 'checkbox' : 'radio'}
+                            name={`exam-${currentExamIndex}`}
+                            checked={isSelected}
+                            onChange={() => handleExamAnswer(opt)}
+                            className="mt-1 accent-sky-500"
+                          />
+                          <span className="text-gray-300 whitespace-pre-wrap">{opt}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
                 ) : (
-                  <motion.button onClick={() => submitExamAnswer(userExamAnswer[examQuestions[currentExamIndex].id] || '')}
-                    className="w-full py-3 rounded-xl bg-sky-500 text-white font-medium" whileHover={{ scale: 1.02 }}>
-                    提交答案
-                  </motion.button>
+                  <>
+                    <textarea
+                      value={(userExamAnswers[examQuestions[currentExamIndex].id] as string) || ''}
+                      onChange={e => setUserExamAnswers(prev => ({ ...prev, [examQuestions[currentExamIndex].id]: e.target.value }))}
+                      placeholder="输入你的答案..."
+                      className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700 text-white placeholder-gray-500 focus:outline-none focus:border-sky-500 resize-none h-40 mb-4"
+                    />
+                    <motion.button onClick={submitOpenAnswer}
+                      className="w-full py-3 rounded-xl bg-sky-500 text-white font-medium"
+                      whileHover={{ scale: 1.02 }}>
+                      {currentExamIndex < examQuestions.length - 1 ? '下一题' : '提交答卷'}
+                    </motion.button>
+                  </>
                 )}
               </div>
             )}
@@ -628,25 +894,52 @@ export default function AIAgent() {
         )}
       </main>
 
-      {/* Input */}
+      {/* ===== Chat Input (fixed bottom) ===== */}
       {activeTab === 'chat' && (
         <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/95 to-transparent pt-8 pb-6 px-6">
           <div className="max-w-5xl mx-auto">
             <div className="relative">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-sky-500/20 to-blue-500/20 blur-xl" />
-              <div className="relative flex items-center gap-4 bg-slate-800/80 backdrop-blur-lg rounded-2xl border border-sky-500/30 p-2">
-                <input type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="输入你的问题..." className="flex-1 bg-transparent px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none"
-                  disabled={isLoading} />
-                <motion.button onClick={handleSend} disabled={!input.trim() || isLoading}
-                  className="p-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Send size={20} />
-                </motion.button>
+              {/* 流光外发光 */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-sky-500 via-purple-500 to-pink-500 opacity-30 blur-xl animate-pulse"
+                style={{ animationDuration: '2s' }} />
+              
+              {/* 流光边框容器 */}
+              <div className="relative rounded-2xl p-[2px]"
+                style={{ background: 'linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #f472b6, #38bdf8)', backgroundSize: '300% 100%', animation: 'inputFlow 4s linear infinite' }}>
+                <div className="flex items-center gap-4 bg-slate-800/90 backdrop-blur-lg rounded-[14px] p-2">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
+                    placeholder="问任何前端问题，或者让我出一道面试题..."
+                    className="flex-1 bg-transparent px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none"
+                    disabled={isLoading}
+                  />
+                  {isLoading ? (
+                    <motion.button
+                      onClick={handleStop}
+                      className="p-3 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Square size={18} fill="white" />
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      onClick={handleSend}
+                      disabled={!input.trim()}
+                      className="p-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Send size={20} />
+                    </motion.button>
+                  )}
+                </div>
               </div>
             </div>
-            <p className="text-center text-xs text-slate-600 mt-3">AI 助手会尽力帮助您，但可能会有不准确之处</p>
+            <p className="text-center text-xs text-slate-600 mt-3">🟢 智谱 GLM-4-Flash · 流式响应</p>
           </div>
         </div>
       )}
