@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useLowCode } from '@/lib/lowcode-context'
 import { SectionConfig } from '@/lib/lowcode-config'
 import OceanEffects from '@/components/OceanEffects'
+import AIAgentSection from '@/components/AIAgentSection'
 
 // Hero Section
 function HeroSection({ props, style }: { props: any; style: any }) {
@@ -486,6 +487,7 @@ const sectionComponents: Record<string, any> = {
   button: ButtonSection,
   divider: DividerSection,
   spacer: SpacerSection,
+  'ai-agent': AIAgentSection,
   custom: ({ props }: any) => (
     <section className="py-20 px-6 bg-slate-900">
       <div className="max-w-4xl mx-auto text-center">

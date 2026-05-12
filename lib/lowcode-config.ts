@@ -23,7 +23,7 @@ export interface LayoutConfig {
 
 export interface SectionConfig {
   id: string
-  type: 'hero' | 'skills' | 'projects' | 'blog' | 'contact' | 'custom'
+  type: 'hero' | 'skills' | 'projects' | 'blog' | 'contact' | 'custom' | 'ai-agent'
   order: number
   visible: boolean
   props: Record<string, any>
@@ -262,6 +262,30 @@ export const componentLibrary: ComponentLibrary[] = [
     },
     propsSchema: [
       { name: 'height', type: 'select', label: '高度', defaultValue: '40px', options: ['20px', '40px', '60px', '80px', '100px'] }
+    ]
+  },
+  {
+    id: 'ai-agent',
+    name: 'AI Agent',
+    icon: '🤖',
+    category: 'interactive',
+    defaultProps: {
+      showChat: true,
+      showInterview: true,
+      showExam: true,
+      defaultTab: 'chat',
+      showBubbles: true,
+      showGlowBox: true,
+      height: '700px',
+    },
+    propsSchema: [
+      { name: 'showChat', type: 'boolean', label: '显示AI对话', defaultValue: true },
+      { name: 'showInterview', type: 'boolean', label: '显示模拟面试', defaultValue: true },
+      { name: 'showExam', type: 'boolean', label: '显示在线笔试', defaultValue: true },
+      { name: 'defaultTab', type: 'select', label: '默认Tab', defaultValue: 'chat', options: ['chat', 'interview', 'exam'] },
+      { name: 'showBubbles', type: 'boolean', label: '气泡动画', defaultValue: true },
+      { name: 'showGlowBox', type: 'boolean', label: '流光边框', defaultValue: true },
+      { name: 'height', type: 'select', label: '组件高度', defaultValue: '700px', options: ['500px', '600px', '700px', '800px', '1000px'] },
     ]
   }
 ]
